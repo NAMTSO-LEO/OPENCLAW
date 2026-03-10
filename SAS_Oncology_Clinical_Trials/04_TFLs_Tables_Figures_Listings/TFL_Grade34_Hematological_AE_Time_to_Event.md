@@ -9,496 +9,335 @@
 | 表格编号 | 预计为 AE 相关表格序号 |
 | 标题 | Time from first dose (any study drug) to first onset of grade 3–4 [ hematological event ] (days) |
 | 所属章节 | 安全性分析 / 不良事件分析 |
-| 数据来源 | ADSL + ADAE |
-| 是否需要 ADEXSUM | 否（仅需 ADSL.TRTSDT + ADAE.ASTDT） |
+| 数据来源 | ADSAFTTE + ADSL |
+| 前置数据集 | ADSL → ADAE → ADAES → ADSAFTTE |
 
 ---
 
-### 1.2 分析目的
-
-评估首次给药后至首次发生 Grade 3-4 血液学不良事件的时间分布，按治疗组进行汇总分析。
-
----
-
-## 一、数据流程概览
+## 二、数据流程概览
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                     TFL 数据流程                                      │
+│                     TFL 数据流程（ADSAFTTE 路线）                      │
 ├─────────────────────────────────────────────────────────────────────┤
 │                                                                     │
-│   ADSL ──────────→ Population dataset ──────────────────────────→ │
-│                     (t_pop)                                          │
-│                        │                                             │
-│                        ▼                                             │
-│   ADAE ──────────→ Event identification ──────────────────────→  │
-│                     (t_ae0)                                         │
-│                        │                                             │
-│                        ▼                                             │
-│                  First event ────────────────────────────────────→  │
-│                  (t_ae1)                                           │
-│                        │                                             │
-│                        ▼                                             │
-│                  Merge TRTSDT ──────────────────────────────────→   │
-│                  (t_tte)                                            │
-│                        │                                             │
-│                        ▼                                             │
-│                  Time calculation ────────────────────────────────→  │
-│                  AVAL = ONSETDT - TRTSDT + 1                      │
-│                        │                                             │
-│                        ▼                                             │
-│                  Summary statistics ──────────────────────────────→  │
-│                  (t_stat)                                          │
-│                        │                                             │
-│                        ▼                                             │
-│                  Report dataset ────────────────────────────────→   │
-│                  (t_final)                                         │
-│                        │                                             │
-│                        ▼                                             │
-│                  PROC REPORT ────────────────────────────────────→   │
-│                  Output TFL                                         │
+│   SDTM                                                            │
+│     │                                                              │
+│     ▼                                                              │
+│   ADAE ──────────────────────────────────────────────────────────→│
+│     │                                                              │
+│     ▼                                                              │
+│   ADAES ─────────────────────────────────────────────────────────→ │
+│     │                                                              │
+│     ▼                                                              │
+│   ADSAFTTE ─────────────────────────────────────────────────────→ │
+│     │                                                              │
+│     ▼                                                              │
+│   TFL (Tables, Listings, Figures)                                  │
 │                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
-### 流程说明
+### ISS 中 TTE 数据集的派生层级
 
-| 步骤 | 数据集 | 说明 |
+| 层级 | 数据集 | 作用 |
 |------|--------|------|
-| 1. ADSL | t_pop | 从 ADSL 提取分析人群、TRTSDT、列头分组 |
-| 2. ADAE | t_ae0 | 从 ADAE 筛选目标事件（Grade 3-4 血液学 AE） |
-| 3. Event identification | t_ae0 | 按 AEDECOD 映射至 5 个目标 Block |
-| 4. First event | t_ae1 | 每个 Subject × Event 只保留首次记录 |
-| 5. Merge TRTSDT | t_tte | 与 Population 数据集合并，获取 TRTSDT |
-| 6. Time calculation | t_tte | 计算 AVAL = ONSETDT - TRTSDT + 1 |
-| 7. Summary statistics | t_stat | 按 Event × Treatment 汇总统计量 |
-| 8. Report dataset | t_final | 整理成 Report 所需的宽表结构 |
-| 9. PROC REPORT | Output | 生成最终 TFL 输出 |
+| 1 | ADAE | 原始不良事件记录 |
+| 2 | ADAES | 按受试者+事件汇总，派生 Grade 标记 |
+| 3 | ADSAFTTE | Time-to-Event 派生，生成 AVAL |
+| 4 | TFL | 汇总统计与输出 |
 
 ---
 
-## 十三、人群定义
+## 三、ADSAFTTE 关键变量
 
-### 2.1 人群来源
+### 3.1 本表所需变量
 
-| 来源 | 数据集 | 说明 |
-|------|--------|------|
-| 分析人群 | ADSL | SAFFL = 'Y' 的受试者 |
-| 列头分组 | ADSL | 按 Treatment Display Group |
-
-### 2.2 人群筛选条件
-
-```sas
-data t_pop;
-    set adsl;
-    where saffl = 'Y' and not missing(trtsdt);
-    
-    * 按 Shell 定义列头分组
-    if trta = 'Epco + R-CHOP' then coln = 1;
-    else if trta = 'R-CHOP' then coln = 2;
-    * ... 其他分组逻辑
-    
-    keep usubjid trtsdt coln;
-run;
-```
-
-### 2.3 关键变量
-
-| 变量 | 来源 | 说明 |
+| 变量 | 说明 | 来源 |
 |------|------|------|
-| USUBJID | ADSL | 受试者唯一标识 |
-| TRTSDT | ADSL | 首次给药日期 |
-| SAFFL | ADSL | 安全性人群标志 |
-| COLN | 派生 | 列序号 |
-| COLLBL | 派生 | 列标签 |
+| USUBJID | 受试者唯一标识 | ADSAFTTE |
+| PARAMCD | 参数代码 | ADSAFTTE |
+| PARAM | 参数名称 | ADSAFTTE |
+| AVAL | 分析值（天数） | ADSAFTTE = ADT - STARTDT + 1 |
+| TRTEMFL | Treatment-Emergent 标志 | ADSAFTTE |
+| ANL02FL | Earliest Event 标志 | ADSAFTTE |
+| TRTA | 实际治疗组 | ADSL |
+
+### 3.2 目标 PARAMCD
+
+| PARAMCD | 说明 |
+|---------|------|
+| STT3PLBD | Time to first Grade ≥3 leukopenia |
+| STT3PNGD | Time to first Grade ≥3 neutropenia |
+| STT3PYGD | Time to first Grade ≥3 lymphopenia |
+| STT3PTGD | Time to first Grade ≥3 thrombocytopenia |
+| STT3PABD | Time to first Grade ≥3 anemia |
+
+### 3.3 ADSAFTTE 派生逻辑
+
+AVAL 已在 ADSAFTTE 中派生完成：
+
+```
+AVAL = ADT - STARTDT + 1
+```
+
+即：事件分析日期 - 治疗开始日期 + 1（天数）
 
 ---
 
-## 十三、事件定义
+## 四、TLF 数据筛选
 
-### 3.1 事件来源
-
-| 来源 | 数据集 | 说明 |
-|------|--------|------|
-| 目标事件 | ADAE | Grade 3-4 血液学不良事件 |
-
-### 3.2 事件筛选条件
+### 4.1 筛选条件
 
 ```sas
-data t_ae0;
-    set adae;
-    where trtemfl = 'Y'          /* Treatment-emergent */
-          and tesfl = 'Y'         /* 首次发生/加重 */
-          and aetoxgrn in (3, 4); /* Grade 3-4 */
-    
-    * 按 AEDECOD 映射至目标事件 block
-    select (upcase(strip(aedecod)));
-        when ('LEUKOPENIA') do;
-            eventcd = 'LEUKOPENIA';
-            eventlbl = 'Leukopenia - white blood cells (hypo)';
-            roword = 1;
-        end;
-        when ('NEUTROPENIA') do;
-            eventcd = 'NEUTROPENIA';
-            eventlbl = 'Neutropenia - absolute neutrophil count (hypo)';
-            roword = 2;
-        end;
-        when ('LYMPHOPENIA') do;
-            eventcd = 'LYMPHOPENIA';
-            eventlbl = 'Lymphopenia - lymphocytes (hypo)';
-            roword = 3;
-        end;
-        when ('THROMBOCYTOPENIA') do;
-            eventcd = 'THROMBOCYTOPENIA';
-            eventlbl = 'Thrombocytopenia - platelet count (hypo)';
-            roword = 4;
-        end;
-        when ('ANEMIA') do;
-            eventcd = 'ANEMIA';
-            eventlbl = 'Anemia - hemoglobin (hypo)';
-            roword = 5;
-        end;
-        otherwise delete;
-    end;
-    
-    onsetdt = astdt;  /* 事件开始日期 */
-    
-    keep usubjid eventcd eventlbl roword onsetdt;
-run;
+proc sql;
+    create table tte as
+        select
+            a.usubjid,
+            a.paramcd,
+            a.param,
+            a.aval,
+            b.trta as trt
+        from adsaftte a
+        left join adsl b
+            on a.usubjid = b.usubjid
+        where
+            a.trtemfl = 'Y'
+            and a.anl02fl = 'Y'
+            and a.paramcd in (
+                'STT3PLBD',
+                'STT3PNGD',
+                'STT3PYGD',
+                'STT3PTGD',
+                'STT3PABD'
+            );
+quit;
 ```
 
-### 3.3 目标事件列表
+### 4.2 筛选条件解释
 
-| Row Order | Event Code | Event Label |
-|-----------|------------|-------------|
-| 1 | LEUKOPENIA | Leukopenia - white blood cells (hypo) |
-| 2 | NEUTROPENIA | Neutropenia - absolute neutrophil count (hypo) |
-| 3 | LYMPHOPENIA | Lymphopenia - lymphocytes (hypo) |
-| 4 | THROMBOCYTOPENIA | Thrombocytopenia - platelet count (hypo) |
-| 5 | ANEMIA | Anemia - hemoglobin (hypo) |
-
-### 3.4 关键变量
-
-| 变量 | 来源 | 说明 |
-|------|------|------|
-| USUBJID | ADAE | 受试者唯一标识 |
-| EVENTCD | 派生 | 事件代码 |
-| EVENTLBL | 派生 | 事件标签 |
-| ROWORD | 派生 | 行序号 |
-| ONSETDT | ADAE.ASTDT | 事件开始日期 |
+| 条件 | 说明 |
+|------|------|
+| TRTEMFL = 'Y' | Treatment-Emergent，仅纳入治疗期间发生的事件 |
+| ANL02FL = 'Y' | Earliest Event，仅纳入每类事件的首次发生记录 |
+| PARAMCD in (...) | 仅纳入 5 个目标血液学 Grade ≥3 事件 |
 
 ---
 
-## 十三、时间变量计算
+## 五、统计逻辑
 
-### 4.1 时间计算公式
-
-```
-AVAL = ONSETDT - TRTSDT + 1
-```
-
-### 4.2 筛选规则
-
-- 仅保留 AVAL >= 1 的记录
-- 排除 AVAL <= 0 的异常记录（需单独 QC）
-
-### 4.3 合并逻辑
-
-```sas
-proc sort data=t_pop; by usubjid; run;
-proc sort data=t_ae1; by usubjid; run;
-
-data t_tte;
-    merge t_ae1(in=a) t_pop(in=b);
-    by usubjid;
-    if a and b;
-    
-    aval = onsetdt - trtsdt + 1;
-    if aval >= 1;
-    
-    keep usubjid eventcd eventlbl roword coln aval;
-run;
-```
-
----
-
-## 十三、统计量输出
-
-### 5.1 统计量定义
+### 5.1 统计量
 
 | 统计量 | 说明 |
 |--------|------|
 | n | 事件发生例数 |
-| Mean (Std Dev) | 均值（标准差） |
+| Mean (SD) | 均值（标准差） |
 | Median | 中位数 |
-| Min, Max | 最小值，最大值 |
+| Min | 最小值 |
+| Max | 最大值 |
 
 ### 5.2 汇总维度
 
-- **行维度**：ROWORD / EVENTCD / EVENTLBL
-- **列维度**：COLN（治疗组）
+- **行维度**：PARAMCD / PARAM
+- **列维度**：Treatment Group（TRTA）
 
 ### 5.3 汇总程序
 
 ```sas
-proc means data=t_tte noprint;
-    class roword eventcd eventlbl coln;
+proc means data=tte n mean std median min max noprint;
+    class paramcd trt;
     var aval;
-    output out=t_stat
+    output out=stats
         n=n
         mean=mean
-        std=std
+        std=sd
         median=median
         min=min
         max=max;
 run;
 ```
 
-### 5.4 格式化输出
+---
+
+## 六、格式整理
+
+### 6.1 格式化显示值
 
 ```sas
-data t_stat2;
-    set t_stat;
-    where not missing(eventcd) and not missing(coln);
+data stats_fmt;
+    set stats;
     
-    length c_n $50 c_meanstd $50 c_median $50 c_minmax $50;
+    length mean_sd $30 minmax $30;
     
-    c_n = strip(put(n, 8.));
+    /* Format Mean (SD) */
+    mean_sd = cats(put(mean, 6.1), ' (', put(sd, 6.2), ')');
     
-    if n > 0 then do;
-        c_meanstd = cats(put(mean, 5.1), ' (', put(std, 6.2), ')');
-        c_median = put(median, 5.1);
-        c_minmax = cats(put(min, 5.1), ', ', put(max, 5.1));
-    end;
-    else do;
-        c_meanstd = '';
-        c_median = '';
-        c_minmax = '';
-    end;
+    /* Format Min, Max */
+    minmax = cats(put(min, 6.1), ', ', put(max, 6.1));
     
-    keep roword eventcd eventlbl coln c_n c_meanstd c_median c_minmax;
+    keep paramcd trt n mean_sd minmax;
 run;
 ```
 
+### 6.2 最终输出结构
+
+| 列 | 说明 |
+|----|------|
+| PARAM | 事件名称 |
+| n | 例数 |
+| Mean (SD) | 均值（标准差） |
+| Median | 中位数 |
+| Min, Max | 最小值，最大值 |
+
+列：按 Treatment Group 分组
+
 ---
 
-## 十三、表头 N 计算
-
-### 6.1 列头 N 值来源
-
-表头中的 (N=xxx) 来自 ADSL 中各治疗组的受试者人数。
+## 七、完整 SAS 程序骨架
 
 ```sas
+/*------------------------------------------------------------
+Step 1: Prepare TTE analysis dataset from ADSAFTTE
+------------------------------------------------------------*/
 proc sql;
-    create table t_n as
-    select coln,
-           count(distinct usubjid) as n
-    from t_pop
-    group by coln;
+    create table tte as
+        select
+            a.usubjid,
+            a.paramcd,
+            a.param,
+            a.aval,
+            b.trta as trt
+        from adsaftte a
+        left join adsl b
+            on a.usubjid = b.usubjid
+        where
+            a.trtemfl = 'Y'
+            and a.anl02fl = 'Y'
+            and a.paramcd in (
+                'STT3PLBD',
+                'STT3PNGD',
+                'STT3PYGD',
+                'STT3PTGD',
+                'STT3PABD'
+            );
 quit;
-```
 
-### 6.2 宏变量使用
-
-将 N 值传入 PROC REPORT：
-
-```sas
-%let n1 = ...;  /* 从 t_n 获取 */
-%let n2 = ...;
-
-proc report data=t_final headline headskip;
-    columns ("Epco + R-CHOP (N=&n1)" col1, ...);
-    ...
-run;
-```
-
----
-
-## 十三、完整 SAS 程序骨架
-
-```sas
-/*---------------------------*
-* 1. Population from ADSL  *
-*---------------------------*/
-data t_pop;
-    set adsl;
-    where saffl = 'Y' and not missing(trtsdt);
-    
-    * 按 Shell 定义列头分组
-    if trta = 'Epco + R-CHOP' then coln = 1;
-    else if trta = 'R-CHOP' then coln = 2;
-    else delete;
-    
-    keep usubjid trtsdt coln;
-run;
-
-/*---------------------------*
-* 2. Event from ADAE       *
-*---------------------------*/
-data t_ae0;
-    set adae;
-    where trtemfl = 'Y'
-          and tesfl = 'Y'
-          and aetoxgrn in (3, 4);
-    
-    length eventcd $40 eventlbl $200;
-    length roword 8;
-    
-    select (upcase(strip(aedecod)));
-        when ('LEUKOPENIA') do;
-            eventcd = 'LEUKOPENIA';
-            eventlbl = 'Leukopenia - white blood cells (hypo)';
-            roword = 1;
-        end;
-        when ('NEUTROPENIA') do;
-            eventcd = 'NEUTROPENIA';
-            eventlbl = 'Neutropenia - absolute neutrophil count (hypo)';
-            roword = 2;
-        end;
-        when ('LYMPHOPENIA') do;
-            eventcd = 'LYMPHOPENIA';
-            eventlbl = 'Lymphopenia - lymphocytes (hypo)';
-            roword = 3;
-        end;
-        when ('THROMBOCYTOPENIA') do;
-            eventcd = 'THROMBOCYTOPENIA';
-            eventlbl = 'Thrombocytopenia - platelet count (hypo)';
-            roword = 4;
-        end;
-        when ('ANEMIA') do;
-            eventcd = 'ANEMIA';
-            eventlbl = 'Anemia - hemoglobin (hypo)';
-            roword = 5;
-        end;
-        otherwise delete;
-    end;
-    
-    onsetdt = astdt;
-    keep usubjid eventcd eventlbl roword onsetdt;
-run;
-
-proc sort data=t_ae0;
-    by usubjid eventcd onsetdt;
-run;
-
-data t_ae1;
-    set t_ae0;
-    by usubjid eventcd onsetdt;
-    if first.eventcd;
-run;
-
-/*---------------------------*
-* 3. Calculate time        *
-*---------------------------*/
-proc sort data=t_pop; by usubjid; run;
-proc sort data=t_ae1; by usubjid; run;
-
-data t_tte;
-    merge t_ae1(in=a) t_pop(in=b);
-    by usubjid;
-    if a and b;
-    
-    aval = onsetdt - trtsdt + 1;
-    if aval >= 1;
-    
-    keep usubjid eventcd eventlbl roword coln aval;
-run;
-
-/*---------------------------*
-* 4. Summary stats          *
-*---------------------------*/
-proc means data=t_tte noprint;
-    class roword eventcd eventlbl coln;
+/*------------------------------------------------------------
+Step 2: Summary statistics
+------------------------------------------------------------*/
+proc means data=tte n mean std median min max noprint;
+    class paramcd trt;
     var aval;
-    output out=t_stat
+    output out=stats
         n=n
         mean=mean
-        std=std
+        std=sd
         median=median
         min=min
         max=max;
 run;
 
-/* 后续按 Section 五、六格式化输出 */
+/*------------------------------------------------------------
+Step 3: Format display values
+------------------------------------------------------------*/
+data stats_fmt;
+    set stats;
+    
+    length mean_sd $30 minmax $30;
+    
+    /* Format Mean (SD) */
+    mean_sd = cats(put(mean, 6.1), ' (', put(sd, 6.2), ')');
+    
+    /* Format Min, Max */
+    minmax = cats(put(min, 6.1), ', ', put(max, 6.1));
+    
+    keep paramcd trt n mean_sd minmax;
+run;
+
+/*------------------------------------------------------------
+Step 4: PROC REPORT output
+------------------------------------------------------------*/
+/* 后续接 PROC REPORT 生成最终 TFL */
 ```
 
 ---
 
-## 十三、QC 检查点
+## 八、QC 检查点
 
-### 8.1 人群级 QC
-- [ ] SAFFL 筛选后受试者人数
-- [ ] TRTSDT 缺失检查
-- [ ] 列头分组完整性
+### 8.1 数据集级 QC
+- [ ] ADSAFTTE 记录数
+- [ ] TRTEMFL + ANL02FL 筛选后记录数
+- [ ] 5 个 PARAMCD 是否全部命中
 
-### 8.2 事件级 QC
-- [ ] TRTEMFL + TESFL 筛选后记录数
-- [ ] Grade 3-4 筛选条件
-- [ ] 目标事件映射完整性
-- [ ] 去重后每 Subject × Event 唯一性
+### 8.2 逻辑级 QC
+- [ ] AVAL 计算逻辑（应为天数）
+- [ ] 与 ADSL merge 后 TRTA 完整性
 
-### 8.3 时间计算 QC
-- [ ] AVAL 分布检查（应有 >= 1）
-- [ ] AVAL <= 0 的异常记录
-
-### 8.4 汇总级 QC
-- [ ] Denominator 与表头 N 一致性
+### 8.3 汇总级 QC
+- [ ] n 与实际事件例数一致性
 - [ ] 统计量计算正确性
-- [ ] Shell 格式一致性
 
 ---
 
-## 十三、为什么不需要 ADEXSUM
+## 九、关键理解（ISS TTE 表的核心逻辑）
 
-### 9.1 ADEXSUM 适用场景
-- Treatment Duration
-- Total Dose
-- Number of Doses
-- Interruption Summary
+### 9.1 为什么不能直接从 ADAE 做表
 
-### 9.2 本表适用场景
-本表仅需两个核心日期：
-- **首剂日期**：ADSL.TRTSDT
-- **首次 G3-4 事件日期**：ADAE.ASTDT
+ISS 中的 Time-to-Event 表格**不应重新派生**，而应直接使用已派生好的 ADSAFTTE：
 
-因此，直接使用 **ADSL + ADAE** 即可满足需求，无需绕道 ADEXSUM。
+| 层级 | 说明 |
+|------|------|
+| ADAE | 原始 AE 记录 |
+| ADAES | 按 Subject + Term 汇总，派生 Grade 标记（如 ANL18FL, ANL15FL 等） |
+| ADSAFTTE | 派生 Time-to-Event（AVAL = ADT - STARTDT + 1） |
+| TFL | 直接使用 ADSAFTTE 进行汇总统计 |
 
----
+### 9.2 正确路线
 
-## 十三、注意事项
+```
+ADAE → ADAES → ADSAFTTE → TFL
+```
 
-### 10.1 TRTSDT 确认
-需确认 **ADSL.TRTSDT** 即为 Shell 认可的 "first dose (any study drug)"。
-
-### 10.2 事件定义确认
-需确认 5 个 Block 是否仅按 **AEDECOD** 单个 PT 抓取，若 Shell/Footnote 有更宽定义，需补充 Mapping List。
-
-### 10.3 TESFL vs TRTEMFL
-- **TRTEMFL = 'Y'**：确保为 Treatment-Emergent
-- **TESFL = 'Y'**：确保为首次发生/加重
-- 两个条件建议同时使用
+TFL 不重新做 derivation。
 
 ---
 
-## 十三、输出格式示意
+## 十、Grade 标记在 ADAES 中的对应关系
 
-| | Epco + R-CHOP (N=xx) | R-CHOP (N=xx) |
+| Grade ≥3 事件 | ADAES 中的分析标志 |
+|---------------|-------------------|
+| Leukopenia | ANL18FL |
+| Neutropenia | ANL15FL |
+| Lymphopenia | ANL17FL |
+| Thrombocytopenia | ANL19FL |
+| Anemia | ANL34FL |
+
+---
+
+## 十一、输出格式示意
+
+| | Treatment A (N=xx) | Treatment B (N=xx) |
 |---|---|---|
-| **Leukopenia - white blood cells (hypo)** | | |
-| Time from first dose to first onset of grade 3-4 (days) | | |
+| **Time to first Grade ≥3 leukopenia (days)** | | |
 | n | | |
-| Mean (Std Dev) | | |
+| Mean (SD) | | |
 | Median | | |
 | Min, Max | | |
-| **Neutropenia - absolute neutrophil count (hypo)** | | |
+| **Time to first Grade ≥3 neutropenia (days)** | | |
+| n | | |
+| Mean (SD) | | |
+| Median | | |
+| Min, Max | | |
 | ... | ... | ... |
 
 ---
 
-## 十三、参考文档
+## 十二、参考文档
 
-- SAP 相关章节
-- TFL Shell
+- ADSAFTTE Specification
+- ADAES Specification
 - ADAE Specification
 - ADSL Specification
+- TFL Shell
+- SAP 相关章节
 - ADaM IG v1.1
