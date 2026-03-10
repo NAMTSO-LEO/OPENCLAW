@@ -366,7 +366,104 @@ run;
 
 ---
 
-## 5. 最终数据集变量清单
+## 5. ADaM 变量五大类别总结
+
+### 5.1 Identifier Variables（标识变量）
+
+用于唯一识别受试者、研究来源和事件记录。
+
+| 变量 | 描述 |
+|------|------|
+| STUDYID | 研究标识 |
+| USUBJID | 受试者唯一标识 |
+| CESEQ | 原始 CE 记录序号 |
+| ASEQ | 最终 ADaM 分析序号 |
+
+**核心作用**：这条记录来自哪个研究、哪个受试者、对应哪条事件。
+
+---
+
+### 5.2 Topic Variables（主题变量）
+
+用于描述事件本身的医学内容和分类。
+
+| 变量 | 描述 |
+|------|------|
+| CETERM | 临床事件原始术语 |
+| CEDECOD | 标准化事件名称（Preferred Term） |
+| CEPTCD | 对应的 PT code |
+| CELLT | Lowest Level Term |
+| CEHLGT | High Level Group Term |
+| CESOC | System Organ Class |
+| CEBODSYS | Body System |
+| CEOCCUR | 事件是否发生 |
+| ACAT | 分析分类变量（通常来自 CECAT） |
+
+**核心作用**：发生了什么事件，这个事件属于什么医学分类。
+
+**最常用**：`CETERM`, `CEDECOD`, `CESOC`, `ACAT`
+
+---
+
+### 5.3 Timing Variables（时间变量）
+
+用于描述事件发生和结束的时间，以及相对治疗起始的时间关系。
+
+| 变量 | 描述 |
+|------|------|
+| CESTDTC | 原始开始日期字符变量 |
+| CEENDTC | 原始结束日期字符变量 |
+| ASTDT | 分析开始日期 |
+| AENDT | 分析结束日期 |
+| ASTDTM | 分析开始日期时间 |
+| AENDTM | 分析结束日期时间 |
+| ASTDY | 分析开始 study day |
+| AENDY | 分析结束 study day |
+
+**核心作用**：事件是什么时候开始、什么时候结束、相对治疗开始是第几天。
+
+---
+
+### 5.4 Linkage Variables（关联变量）
+
+用于建立 CE 与 AE 或来源记录之间的关联。
+
+| 变量 | 描述 |
+|------|------|
+| AESPID | 与 AE 关联的标识 |
+| AESICAT | AE 分类 |
+| AEREFID1–AEREFID4 | AE 相关 reference id |
+| AELNKGRP | AE linkage group |
+| CELNKGRP | CE linkage group |
+| SRCSEQ | 来源记录序号 |
+| SRCDOM | 来源域 |
+
+**核心作用**：这条 CE 记录和哪条 AE 或哪条原始来源记录相关。
+
+**最关键**：`AESPID`, `AESICAT`, `SRCDOM`, `SRCSEQ`
+
+---
+
+### 5.5 Analysis Variables（分析变量）
+
+用于支持安全性汇总和分析展示的派生分析变量。
+
+| 变量 | 描述 |
+|------|------|
+| ASEQ | 分析序号 |
+| ACAT | 分析分类 |
+| ATOXGR | 分析用 toxicity grade |
+| ASTDY | 分析开始 study day |
+| AENDY | 分析结束 study day |
+| AESICAT | 分析用事件分类 |
+
+**核心作用**：最终用于表格、listing、summary 的变量。
+
+**最关键**：`ASEQ`, `ACAT`, `ATOXGR`, `ASTDY`, `AENDY`, `AESICAT`
+
+---
+
+## 6. 最终数据集变量清单
 
 ### 5.1 识别变量
 
