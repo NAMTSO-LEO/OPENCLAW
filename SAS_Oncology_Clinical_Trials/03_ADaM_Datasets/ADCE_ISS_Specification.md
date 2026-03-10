@@ -249,7 +249,124 @@ run;
 
 ---
 
-## 4. 最终数据集变量清单
+## 4. Key Variables 分类梳理
+
+### 4.1 第一层：主键和记录标识变量
+
+这些变量决定一条记录"是谁，是哪个研究、是哪条事件"。
+
+| 变量 | 描述 | 核心程度 |
+|------|------|----------|
+| USUBJID | 受试者唯一标识，最核心的 subject-level key | ⭐⭐⭐ |
+| STUDYID | 研究标识，决定记录来自哪个研究 | ⭐⭐⭐ |
+| CESEQ | 原始 CE 记录序号，study 内事件记录标识 | ⭐⭐ |
+| ASEQ | 最终 ADaM 中重新生成的分析序号 | ⭐⭐⭐ |
+| SRCSEQ | 来源记录序号，保留原始来源定位 | ⭐ |
+| SRCDOM | 来源域标识，说明记录来自哪个 source domain | ⭐ |
+
+**最核心组合**：
+- 原始定位：`USUBJID + CESEQ`
+- 最终分析定位：`USUBJID + ASEQ`
+
+---
+
+### 4.2 第二层：事件描述变量
+
+这些变量描述"发生了什么事件"。
+
+| 变量 | 描述 | 核心程度 |
+|------|------|----------|
+| CETERM | Clinical Event 原始术语 | ⭐⭐⭐ |
+| CEDECOD | 标准化后的事件解码词（Preferred Term） | ⭐⭐⭐ |
+| CEPTCD | Preferred Term code | ⭐⭐ |
+| CELLT | Lowest Level Term | ⭐ |
+| CEHLGT | High Level Group Term | ⭐⭐ |
+| CESOC | System Organ Class | ⭐⭐⭐ |
+| CEBODSYS | Body System | ⭐⭐ |
+| CEOCCUR | 事件是否发生 | ⭐⭐ |
+| ACAT / CECAT | 事件分类 | ⭐⭐⭐ |
+
+**最常用，最能代表事件本体**：
+- `CETERM`
+- `CEDECOD`
+- `CESOC`
+- `ACAT`
+
+---
+
+### 4.3 第三层：分析时间变量
+
+这些变量描述事件何时发生，是 ADaM 中非常关键的一组。
+
+| 变量 | 描述 | 核心程度 |
+|------|------|----------|
+| CESTDTC | 原始事件开始日期字符 | ⭐⭐ |
+| CEEENDTC | 原始事件结束日期字符 | ⭐⭐ |
+| ASTDT | 分析开始日期 | ⭐⭐⭐ |
+| AENDT | 分析结束日期 | ⭐⭐⭐ |
+| ASTDTM | 分析开始日期时间 | ⭐⭐⭐ |
+| AENDTM | 分析结束日期时间 | ⭐⭐⭐ |
+| ASTDY | 相对治疗开始日的开始 study day | ⭐⭐⭐ |
+| AENDY | 相对治疗开始日的结束 study day | ⭐⭐⭐ |
+
+**直接支持后续 analysis / listing / sorting / derivation**：
+- `ASTDT / AENDT`
+- `ASTDTM / AENDTM`
+- `ASTDY / AENDY`
+
+---
+
+### 4.4 第四层：AE 关联变量
+
+这是这段程序非常重要的一组，因为它不是单纯做 CE，而是在建立 **CE 与 AE 的映射关系**。
+
+| 变量 | 描述 | 核心程度 |
+|------|------|----------|
+| AESPID | 与 AE 对应的标识 | ⭐⭐⭐ |
+| AESICAT | AE category / 特定安全性分类 | ⭐⭐⭐ |
+| AEREFID1–AEREFID4 | AE 相关 reference id | ⭐ |
+| AELNKGRP / CELNKGRP | AE/CE link group，用于关系映射 | ⭐⭐ |
+| AESEQ | 部分处理中间用于和 ADAE 连接的变量 | ⭐⭐ |
+
+**业务上最关键**：
+- `AESPID`
+- `AESICAT`
+
+因为这两个变量体现了 CE 记录如何挂接到 AE 安全性框架。
+
+---
+
+### 4.5 第五层：严重程度/分级变量
+
+这些变量反映事件分级。
+
+| 变量 | 描述 | 核心程度 |
+|------|------|----------|
+| CETOXGR | 原始 Toxicity Grade | ⭐⭐ |
+| ATOXGR | 标准化后的 Analysis Toxicity Grade | ⭐⭐⭐ |
+| ATOXGRN | 数值型 Toxicity Grade | ⭐⭐ |
+
+**最终更重要的是**：`ATOXGR`
+
+因为它是统一后保留到最终 ADCE 的 toxicity grade 变量。
+
+---
+
+### 4.6 压缩成"最核心变量"清单
+
+若只保留最关键的一小组：
+
+| 类别 | 变量 |
+|------|------|
+| 记录唯一性 | USUBJID, STUDYID, CESEQ, ASEQ |
+| 事件内容 | CETERM / CEDECOD, ACAT |
+| 分析时间 | ASTDT / AENDT, ASTDY / AENDY |
+| AE 关联 | AESPID, AESICAT |
+| 分级 | ATOXGR |
+
+---
+
+## 5. 最终数据集变量清单
 
 ### 4.1 识别变量
 
@@ -329,7 +446,7 @@ run;
 
 ---
 
-## 5. 示例数据
+## 6. 示例数据
 
 ### 5.1 单条记录示例
 
@@ -341,7 +458,7 @@ run;
 
 ---
 
-## 6. QC 检查清单
+## 7. QC 检查清单
 
 ### 6.1 数据完整性
 - [ ] 所有 6 个研究的数据均已合并
@@ -364,13 +481,13 @@ run;
 
 ---
 
-## 7. 核心逻辑一句话总结
+## 8. 核心逻辑一句话总结
 
 > **先把各研究的临床事件数据分别提取并筛选，再统一日期格式并补齐 AE 关联信息，最后跨研究合并、去重后输出标准化的 ISS 用 ADCE 数据集。**
 
 ---
 
-## 8. 参考文档
+## 9. 参考文档
 
 - CDISC ADaM IG v1.1
 - ADaM Implementation Guide
