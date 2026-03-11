@@ -2,7 +2,12 @@
 
 Skills define _how_ tools work. This file is for _your_ specifics — the stuff that's unique to your setup.
 
-## What Goes Here
+### TTS (ElevenLabs)
+
+- API key: ad329a56c4287b8a2cd789e849d8c5b9e503495e546f6b8cc472786aa8f0bbcd
+- Default voice ID: 21m00Tcm4TlvDq8ikWAM (Rachel)
+- Speed: 0.85 (slower than default)
+- Use direct curl + afplay for voice output
 
 Things like:
 
