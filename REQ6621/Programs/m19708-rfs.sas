@@ -590,5 +590,118 @@ data table&tab;
  else if order=7.5 then name='KM estimate rate [95% CI]'; 
 RUN;
 
+/****************************************************************************/
+proc sort data=table&tab;
+ by order name page;
+run; 
+
+data final;
+ length result1-result&grpno. $200;
+ set table1;
+ array a(&grpno.) col1-col&grpno.;
+ array b(&grpno.) $200. result1-result&grpno.;
+ do i=1 to &grpno.;
+ if b(i)=' ' then b(I)='0 ';
+ b(i)=strip(a(i));
+ end;
+ 
+ if order<=4 then ord=1;
+ else if 4<order<=7 then ord=2;
+ else if order>7 then ord=3;
+ 
+run;
+
+
+data final;
+ length rowlbl $200;
+ set final;
+ rowlbl=name;
+ pagenum=1;
+ sortord1=ord; 
+ sortord2=order; 
+
+run;
+
+proc sort data=final;
+ by pagenum sortord1 sortord2; 
+ %if &tab=1 %then %do;
+ keep pagenum sortord: result1-result3 rowlbl; 
+ %end; 
+ %if &tab=2 %then %do;
+ keep pagenum sortord: result4-result8 rowlbl; 
+ %end; 
+ proc print;run;
+run; 
+ 
+/****************************************************************************/
+/* REPORT */
+/****************************************************************************/
+
+%macro rtf;
+ods listing close;
+options nonumber nodate orientation=landscape papersize=letter source sysprintfont=("courier new" 8);
+ods rtf body="&TPATH./t_&&XNUM&tab...rtf" style=rtfstyle;
+ods escapechar = '~';
+
+
+proc report data=final out=VTLFDATA.&&dsnum&tab. nowd nocenter split="\" missing
+ style(report)={width=100% just=l asis=on outputwidth=9in}
+ style(header)={asis=on just=c}
+ style(column)={asis=on just=c}
+ STYLE(LINES) ={ASIS=ON JUST=L};
+
+ column pagenum sortord1 sortord2 rowlbl 
+ 
+ %if &tab=1 %then %do;
+ result1-result3
+ %end;
+ %if &tab=2 %then %do;
+ ("~n------------ Dose Level 1 ------------~n------------ Dose Escalation ------------" result4-result6)
+ ("- Dose Level 2 -" result7) result8;
+ %end;
+ ;
+ define pagenum / order order=internal noprint;
+ define sortord1 / order order=internal noprint;
+ define sortord2 / order order=internal noprint;
+ define rowlbl / display flow style=[width=30% just=l protectspecialchars=off pretext='\pnhang\fi-220\li200'] 
+ style(header)=[just=l asis = on] " ";
+
+ %if &tab=1 %then %do;
+ define result1 / order style=[width=15% Just=c] "~nVenetoclax 400 mg x\ 21 Days +\Azacitidine 20 mg/m^2\%sysfunc(compress(&numd1)) ";
+ define result2 / order style=[width=15% just=c] "~nVenetoclax 400 mg x\ 28 Days +\Azacitidine 36 mg/m^2\%sysfunc(compress(&numd2)) ";
+ define result3 / order style=[width=15% just=c] "~nVenetoclax 400 mg x\ 28 Days +\Azacitidine 50 mg/m^2\%sysfunc(compress(&numd3)) ";
+ %end;
+
+ %if &tab=2 %then %do;
+ define result4 / order style=[width=15% Just=c] "~nCohort 1\%sysfunc(compress(&numd4)) ";
+ define result5 / order style=[width=15% just=c] "~nCohort 2\%sysfunc(compress(&numd5)) ";
+ define result6 / order style=[width=15% just=c] "~nTotal\%sysfunc(compress(&numd6)) ";
+ define result7 / order style=[width=15% just=c] "~n- Dose Escalation -\%sysfunc(compress(&numd7)) ";
+ define result8 / order style=[width=15% just=c] "~nTotal^*\%sysfunc(compress(&numd8)) ";
+ %end;
+ %rtfhtf;
+ compute before pagenum;
+ line @1 " ";
+ endcomp;
+
+ compute after sortord1;
+ line @1 " ";
+ endcomp;
+ break after pagenum / page; 
+run;
+ods rtf close;
+ods listing;
+
+
+
+
+%mend rtf;
+%rtf;
+
 %mend table;
+
+/* %table(tab=1); */
+/**PART 1**/
+%table(tab=2);
+/**PART 3**/
 
