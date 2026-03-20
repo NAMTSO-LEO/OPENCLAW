@@ -393,5 +393,202 @@ data qtle; set survqtle;
  keep &group percent ciday;
 run;
 
+/*************************************************************
+***** PUT DATA TOGETHER **************;
+*************************************************************;
+
+data table;
+ set sur(in = a) qtle(in = b);
+ if a then quart = 0;
+ else if b then quart = 1;
+
+ if _name_ = 'TOT' then order = 0;
+ else if _name_ = 'EVENT' then order = 1;
+ else if _name_ = 'DED' then order = 2;
+ else if _name_ = 'PDED' then order = 3;
+ else if _name_ = 'CENSOR' then order = 4;
+run;
+
+/**********************************************;
+* SURVIVAL RATE AT MONTH 6 , 12 **;
+**********************************************;
+
+data pplot;
+ set pplot;
+ if survival^=. then survival=round(survival, 0.0000001);
+ if survival = . then put / 'PROBLEM' _all_;
+run;
+
+proc sort data=pplot;
+ by &group month descending survival;
+ run;
+
+data pplot;
+ set pplot;
+ by &group month descending survival;
+ retain surv lcl ucl;
+ if first.&group then do;
+ surv=.;
+ lcl=.;
+ ucl=.;
+ end;
+ if survival ne . then surv=100*survival;
+ if sdf_lcl ne . then lcl =100*sdf_lcl;
+ if sdf_ucl ne . then ucl =100*sdf_ucl; 
+run;
+
+/**********************************************;
+* SURVIVAL RATE AT MONTH 3 6 12 **;
+**********************************************;
+
+%macro rate(n=, days=, rate=);
+*Survival rate at a given month;
+data rate&n.m; set pplot;
+ if month<=&days;
+run;
+
+data rate&n.m; 
+ set rate&n.m; 
+ by &group month descending surv;
+ if last.&group;
+run;
+
+data rate&n.mx; 
+ set pplot; 
+ if month>=&days;
+ keep &group;
+run;
+
+proc sort nodupkey data=rate&n.mx; by &group; run;
+
+data rate&n.m; merge rate&n.m(in=a) rate&n.mx(in=b); by &group;
+ if a and not b then flag=1;
+run;
+
+data &rate.; set rate&n.m;
+ length prtsurv $22.;
+ prtsurv=strip(put(surv,5.1))||' ['||strip(put(lcl,5.1))||', '||strip(put(ucl,5.1))||']';
+ if surv=0 then prtsurv='0';
+ if flag=1 then do;
+ prtsurv='NA';
+ end;
+run;
+
+%mend rate;
+
+%rate(n=3, days=3, rate=rate03m);
+%rate(n=6, days=6, rate=rate06m);
+%rate(n=12, days=12, rate=rate12m);
+
+data srm; 
+ set rate03m(in=a) rate06m(in=b) rate12m(in=c) ;
+
+ if a then do;
+ quart =3;
+ end;
+ if b then do;
+ quart =6;
+ end;
+ if c then do;
+ quart =12;
+ end;
+
+ keep &group quart month prtsurv;
+ run;
+
+ data test_table;
+ set table srm;
+run;
+
+data table;
+ set table srm;
+ if order = 0 then delete;
+run;
+
+proc sort data = table;
+ by &group quart order;
+run;
+
+data table1;
+ length name col $40;
+ set table;
+
+ if _name_="EVENT" then do;
+ name="Events - n (%)";
+ col=col1;
+ end;
+ else if _name_ = 'DED' then do;
+ name=" Death - n";
+ col=col1;
+ end; 
+ else if _name_ = 'PDED' then do;
+ name= " Relapse - n"; 
+ col=col1;
+ end;
+ else if _name_="CENSOR" then do;
+ name="Censored - n (%)";
+ col=col1;
+ end;
+
+ if percent=25 then do; 
+ name=" 25th percentile ";
+ order=5;
+ col=ciday;
+ end;
+ else if percent=50 then do;
+ name=" 50th percentile (median)";
+ order=6;
+ col=ciday;
+ end;
+ else if percent=75 then do;
+ name=" 75th percentile ";
+ ORDER=7;
+ col=ciday;
+ end;
+
+ else if quart=3 then do;
+ name=" 3 months ";
+ order=9;
+ col=prtsurv;
+ end;
+ else if quart=6 then do;
+ name=" 6 months ";
+ order=10;
+ col=prtsurv;
+ end;
+ else if quart=12 then do;
+ name=" 12 months ";
+ order=11;
+ col=prtsurv;
+ end;
+
+ page=1;
+
+ keep name page col &group order;
+run;
+
+proc sort data=table1; 
+ by order name page;
+run;
+
+proc transpose data = table1 out = table1 prefix=col;
+ by order name page;
+ id &group;
+ var col;
+run;
+
+data test;
+ do order=4.5,7.5;
+ output;
+ end;
+run;
+
+data table&tab; 
+ set table1 test;
+ length name $40;
+ if order=4.5 then name='KM estimates (months) [95% CI]';
+ else if order=7.5 then name='KM estimate rate [95% CI]'; 
+RUN;
+
 %mend table;
 
