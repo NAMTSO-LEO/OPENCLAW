@@ -43,9 +43,45 @@ Reviewers value:
 
 ---
 
-## 3. Machine Learning Models (Secondary / Predictive Enhancement)
+## 3. Machine Learning and Deep Learning (Exploratory)
 
-For predictive performance improvement, the following supervised machine learning algorithms may be evaluated:
+> **Machine learning and deep learning analyses will be considered exploratory and will only be pursued if sample size, event number, and data completeness are sufficient to support robust model training and validation. To reduce overfitting, model complexity will be constrained according to the effective sample size and number of outcome events.**
+
+---
+
+## 4. Data Preprocessing
+
+The following preprocessing steps will be applied:
+
+| Step | Method |
+|------|--------|
+| Missing data | Multiple imputation or model-specific imputation |
+| Continuous variables | Standardization / normalization |
+| Categorical variables | One-hot or ordinal encoding |
+| Skewed biomarkers | Winsorization or transformation (GH, IGF-1) |
+| Laboratory harmonization | IGF-1 index and standardized endocrine definitions |
+| Center adjustment | Fixed effect, random effect, or stratified validation |
+
+> **To account for between-center heterogeneity, center identifier will be incorporated into the modeling pipeline, and center-level internal-external cross-validation will be performed whenever feasible.**
+
+---
+
+## 5. Traditional Statistical Models (Primary)
+
+These will remain the primary inferential models:
+
+| Model Type | Application |
+|------------|-------------|
+| Cox proportional hazards | Time-to-event endpoints |
+| Logistic regression | Binary endpoints |
+| Competing-risk models | Competing risks |
+| LASSO/Elastic Net | Variable selection |
+
+---
+
+## 6. Machine Learning Models (Secondary / Predictive Enhancement)
+
+For predictive performance improvement:
 
 ### For Binary Outcomes
 
@@ -67,97 +103,117 @@ For predictive performance improvement, the following supervised machine learnin
 | Penalized Cox | Regularized Cox |
 | DeepSurv | Deep learning survival (if n permits) |
 
-### For Longitudinal / Repeated Measures
-
-| Algorithm | Description |
-|-----------|-------------|
-| Mixed-effects models | Repeated hormone measures |
-| Joint modeling | Longitudinal + time-to-event |
-| RNN/Temporal models | Exploratory only |
-
 ---
 
-## 4. Deep Learning (Exploratory)
+## 7. Deep Learning (Exploratory)
 
 ### A. Survival Deep Learning
 
 > Deep learning–based survival models such as DeepSurv or DeepHit may be explored to model nonlinear relationships between baseline characteristics and time-to-remission or time-to-toxicity outcomes.
 
-**Suitable endpoints:**
-- Time to remission
-- Time to recurrence
-- Time to hypopituitarism
+**Suitable endpoints:** time to remission, recurrence, hypopituitarism
 
-**Advantages:**
-- Better capture nonlinearities and interactions
-- No raw imaging data required
-- More realistic than CNNs
+### B. Multimodal Fusion
 
----
+> If imaging and radiosurgical planning data are available in standardized digital format, multimodal deep learning models integrating clinical variables, MRI-derived imaging features, and dosimetric parameters may be explored.
 
-### B. Multimodal Fusion (Clinical + Dosimetry + Imaging)
+### C. MRI Radiomics / CNN (Exploratory)
 
-> If imaging and radiosurgical planning data are available in standardized digital format, multimodal deep learning models integrating clinical variables, MRI-derived imaging features, and dosimetric parameters may be explored to predict remission and toxicity.
-
-**Potential inputs:**
-| Modality | Features |
-|----------|----------|
-| Clinical | Age, sex, baseline GH, IGF-1i, medication status |
-| Surgical | Prior surgeries, residual tumor |
-| Imaging | Volume, Knosp grade, ICA encasement, cavernous sinus location |
-| Radiosurgical | Margin dose, max dose, isodose, optic dose, BED, coverage |
+> In centers with available high-quality pre-radiosurgical MRI data, radiomics- or CNN-based exploratory analyses may be performed to assess imaging signatures beyond conventional clinical models.
 
 ---
 
-### C. MRI Radiomics / CNN (Exploratory Sub-study)
+## 8. Model Development and Validation
 
-> In centers with available high-quality pre-radiosurgical MRI data, radiomics- or convolutional neural network–based exploratory analyses may be performed to assess whether imaging signatures of cavernous sinus invasion, tumor texture, or residual volume distribution improve prediction of endocrine remission or toxicity beyond conventional clinical models.
+### Split Strategy
 
-*This is written to be advanced but not binding.*
+> The dataset will be randomly split into training and test cohorts only if sample size is sufficiently large; otherwise, repeated k-fold cross-validation or bootstrap resampling will be used.
 
----
+### Internal-External Validation (Priority)
 
-## 5. Sample Size Consideration
+> **Given the multicenter design, internal-external validation will be prioritized, whereby models are iteratively trained on all but one center and tested on the held-out center. This will assess transportability across institutions.**
 
-Given that this is an international multicenter study specifically focused on **cavernous sinus–invading acromegaly**, the sample size may be limited. To address this concern:
+### Validation Methods
 
-> Given the specialized patient population, sample size constraints are anticipated. ML/DL models will be validated using bootstrap resampling and cross-validation. Model performance will be reported with appropriate uncertainty estimates. Traditional regression models will serve as the primary analytical framework, with ML/DL models providing supplementary predictive insights.
-
----
-
-## 6. Model Validation
-
-| Approach | Description |
-|----------|-------------|
-| Internal validation | Bootstrap resampling (1000 iterations) |
-| Cross-validation | K-fold (k=5 or 10) |
-| External validation | Held-out center(s) if sample permits |
-| Performance metrics | C-statistic, AUC, Brier score, calibration plots |
+| Method | Description |
+|--------|-------------|
+| Repeated 5-fold CV | Cross-validation |
+| Bootstrap resampling | Optimism correction |
+| Leave-one-center-out | Internal-external validation |
+| Calibration assessment | Calibration plots |
+| Decision curve analysis | Clinical utility |
 
 ---
 
-## 7. Reporting
+## 9. Model Performance Metrics
 
-- **TRIPOD** guidelines for prediction models
-- **ML-specific**: Report algorithm, tuning, hyperparameters, feature importance
-- **SHAP values** for feature interpretation in tree-based models
-- **Nomograms** for clinically interpretable models
+### Binary Outcomes
+
+| Metric | Description |
+|--------|-------------|
+| Discrimination | AUC / C-statistic |
+| Calibration | Calibration slope, intercept, Brier score |
+| Clinical utility | Decision curve analysis |
+| Reclassification | NRI (when comparing models) |
+
+### Time-to-Event Outcomes
+
+| Metric | Description |
+|--------|-------------|
+| Discrimination | Harrell's C-index, time-dependent AUC |
+| Calibration | Integrated Brier score, calibration at 3/5/10 years |
+| Clinical utility | Decision curve analysis |
 
 ---
 
-## 8. Integration Summary
+## 10. Model Interpretability
+
+> **To improve clinical interpretability, variable importance measures, partial dependence plots, SHAP (Shapley additive explanations), and accumulated local effect plots may be used to characterize the contribution and directionality of key predictors across machine learning models.**
+
+SHAP is particularly suitable for interpreting:
+- IGF-1 index
+- Knosp grade
+- Tumor volume
+- Interval from surgery to GKS
+- BED
+- Medication hold
+
+---
+
+## 11. Dynamic Prediction Models
+
+> **Dynamic prediction models may be constructed using landmark analysis or joint modeling approaches to update individualized remission probabilities over time as serial endocrine measurements and interval imaging become available.**
+
+This approach is especially suitable for:
+- Gradual remission over time
+- Dynamic IGF-1 changes
+- Long follow-up duration
+- Nonlinear progression patterns
+
+---
+
+## 12. Integration Summary
 
 | Tier | Model Type | Role | Validation |
 |------|------------|------|------------|
 | **Primary** | Cox / Logistic | Clinical inference, HR/OR, nomogram | Bootstrap + CV |
 | **Secondary** | XGBoost, RF, Survival forests | Predictive enhancement | CV + bootstrap |
-| **Exploratory** | DeepSurv, Multimodal CNN | Novel methods, hypothesis-generating | Limited by n |
+| **Exploratory** | DeepSurv, Multimodal CNN | Novel methods | Limited by n |
 
 ---
 
-## 9. Key Message
+## 13. Key Message
 
 > This study employs a **clinically interpretable statistical modeling framework as the primary analysis**, with machine learning models serving as predictive performance enhancers and deep learning reserved for exploratory analyses. This approach ensures IRB compatibility, reviewer acceptance, and alignment with clinical journal standards while leveraging modern AI methods to augment predictive capability.
+
+---
+
+## 14. Reporting Guidelines
+
+- **TRIPOD** for prediction models
+- **ML-specific**: Algorithm, tuning, hyperparameters, feature importance
+- **SHAP values** for tree-based model interpretation
+- **Nomograms** for clinically interpretable models
 
 ---
 
