@@ -69,6 +69,8 @@ GKS provides high long-term tumor control and clinically meaningful endocrine re
 
 6. **Develop a dynamic prediction model** integrating surgical, radiosurgical, radiographic and biochemical factors for multimodal treatment outcomes in acromegaly
 
+> **Note:** A detailed predictive modeling framework integrating traditional statistical models, machine learning, and deep learning approaches is provided in the supplementary document: `Predictive_Modeling_ML_Analysis.md`
+
 ---
 
 ## Patient Inclusion Criteria
