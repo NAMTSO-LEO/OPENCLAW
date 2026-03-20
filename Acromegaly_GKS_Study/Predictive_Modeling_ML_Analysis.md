@@ -1,192 +1,109 @@
-# Machine Learning and Deep Learning Analysis
-
-## English Version
+# Statistical Analysis and Predictive Modeling
 
 ---
 
-## 1. Overview
+## 1. Conventional Statistical Analysis
 
-In addition to conventional regression-based analyses, this study will develop a **multimodal predictive modeling framework** to estimate:
+Kaplan–Meier methods will be used to estimate time to endocrine remission, durable remission, recurrence-free survival, progression-free survival, and time to new hypopituitarism. Log-rank tests will be used for group comparisons, including early versus delayed radiosurgery, targeted versus whole-sella planning strategies, medication hold versus no hold, low versus high IGF-1 index, and dose/BED strata.
 
-1. **Durable endocrine remission**
-2. **Time to endocrine remission**
-3. **Biochemical recurrence**
-4. **New hypopituitarism**
-5. **Need for salvage treatment**
+Cox proportional hazards regression models will be used to identify predictors of time-to-event outcomes, including endocrine remission, recurrence, and hypopituitarism. Logistic regression models will be used for binary outcomes such as new hypopituitarism, visual toxicity, cranial neuropathy, and need for salvage treatment. Variables with p < 0.10 in univariable analysis or strong biological plausibility will be included in multivariable models.
 
-Candidate predictors will include demographic, endocrine, surgical, radiographic, and dosimetric variables.
+To improve model stability and reduce overfitting, penalized regression techniques (LASSO and elastic net) will be applied for variable selection and shrinkage. Complete-case analysis will be primary, with multiple imputation considered if missingness is moderate and compatible with model assumptions. Statistical significance will be defined as a two-sided p-value < 0.05.
 
 ---
 
-## 2. Model Hierarchy
+## 2. Machine Learning and Deep Learning–Augmented Predictive Modeling
 
-### Primary: Traditional Statistical Models
+In addition to conventional regression-based analyses, a multimodal predictive modeling framework will be developed to estimate clinically relevant outcomes following Gamma Knife radiosurgery (GKS), including durable endocrine remission, time to remission, biochemical recurrence, new hypopituitarism, and need for salvage intervention.
 
-> **Conventional models, including penalized logistic regression and penalized Cox regression, will serve as the primary interpretable models.**
+### 2.1 Modeling Strategy
 
-| Model | Application |
-|-------|-------------|
-| Cox proportional hazards | Time-to-event outcomes |
-| Logistic regression | Binary outcomes |
-| LASSO/Elastic Net | Variable selection & shrinkage |
+> **Conventional regression models will serve as the primary, clinically interpretable models.** Machine learning algorithms will be implemented as secondary models to enhance predictive performance and capture nonlinear relationships and higher-order interactions. These may include random forest, gradient boosting machines, extreme gradient boosting (XGBoost), support vector machines, and random survival forests for time-to-event outcomes.
 
-### Secondary: Machine Learning
+If sample size, number of events, and data completeness are sufficient, deep learning–based survival models such as DeepSurv or DeepHit will be explored to model complex nonlinear relationships between predictors and time-dependent outcomes.
 
-Machine learning approaches will be evaluated as **secondary predictive models** to capture nonlinear associations and higher-order interactions:
+### 2.2 Data Processing and Feature Engineering
 
-| Algorithm | Application |
-|------------|-------------|
-| Random Forest | Binary outcomes |
-| Gradient Boosting | Binary/survival |
-| XGBoost | Binary/survival |
-| Support Vector Machines | Binary outcomes |
-| Random Survival Forests | Survival outcomes |
+Data preprocessing will include:
 
-### Exploratory: Deep Learning
+- Handling missing data using multiple imputation or model-specific techniques
+- Normalization or standardization of continuous variables
+- Transformation of skewed endocrine biomarkers (e.g., GH, IGF-1)
+- Encoding of categorical variables
+- Harmonization of endocrine measurements across centers using IGF-1 index
 
-> If sample size and event counts are sufficient, **deep learning–based survival models such as DeepSurv or DeepHit** may be explored for time-to-event outcomes.
+> **To account for inter-center variability, center identifiers will be incorporated into the modeling framework, and center-level heterogeneity will be addressed through adjustment or validation strategies.**
 
----
+### 2.3 Model Development and Validation
 
-## 3. Multimodal Exploratory Analysis
+Model development will use resampling-based strategies. If sample size permits, data will be divided into training and testing sets; otherwise, repeated k-fold cross-validation and bootstrap resampling will be applied.
 
-> For centers with sufficiently standardized imaging and radiosurgical planning data, exploratory multimodal models integrating clinical variables, MRI-derived features, and dosimetric parameters may also be developed.
+> **Given the multicenter design, internal-external validation will be prioritized, whereby models are iteratively trained on all but one center and tested on the held-out center to evaluate generalizability.**
 
-> Radiomics- or convolutional neural network–based analyses may be considered in a subset of patients with high-quality imaging data.
+Model complexity will be constrained according to effective sample size and number of outcome events to minimize overfitting.
 
----
+### 2.4 Model Performance Evaluation
 
-## 4. Data Preprocessing
+Model performance will be assessed using:
 
-Model development will incorporate:
-
-| Step | Method |
-|------|--------|
-| Missing data | Multiple imputation or model-specific imputation |
-| Scaling | Standardization/normalization |
-| Categorical encoding | One-hot or ordinal encoding |
-| Center harmonization | Fixed effect, random effect, stratified |
-| Skewed variables | Winsorization/transformation (GH, IGF-1) |
-
-> **Model complexity will be constrained according to effective sample size and event number to reduce overfitting.**
-
----
-
-## 5. Validation Strategy
-
-> **Validation will prioritize repeated cross-validation, bootstrap optimism correction, and internal-external validation across contributing centers.**
-
-| Method | Description |
-|--------|-------------|
-| Repeated K-fold CV | K=5 or 10 |
-| Bootstrap | Optimism correction |
-| Internal-external | Leave-one-center-out |
-| Calibration | Calibration plots |
-| Decision curve | Clinical utility |
-
----
-
-## 6. Model Performance Metrics
-
-### Binary Outcomes
-
-| Metric | Description |
-|--------|-------------|
-| Discrimination | AUC / C-statistic |
-| Calibration | Calibration slope, Brier score |
-| Clinical utility | Decision curve analysis |
-| Reclassification | NRI |
-
-### Time-to-Event Outcomes
-
-| Metric | Description |
-|--------|-------------|
-| Discrimination | Harrell's C-index, time-dependent AUC |
-| Calibration | Integrated Brier, calibration at 3/5/10 years |
+| Aspect | Metrics |
+|--------|---------|
+| Discrimination | AUC, time-dependent AUC, Harrell's C-index |
+| Calibration | Calibration plots, calibration slope, calibration-in-the-large, Brier score |
 | Clinical utility | Decision curve analysis |
 
----
+For survival models, integrated Brier score and time-dependent calibration at clinically relevant time points will also be evaluated.
 
-## 7. Model Interpretability
+### 2.5 Model Interpretability
 
-> **Model interpretability will be assessed using variable importance measures and SHAP-based explanation methods.**
+> **To enhance interpretability, model-agnostic explanation methods will be used, including variable importance measures, Shapley additive explanations (SHAP), and partial dependence plots, to quantify the contribution and direction of key predictors.**
 
-SHAP is particularly suitable for:
+Key predictors for SHAP analysis include:
 - IGF-1 index
 - Knosp grade
 - Tumor volume
 - Interval from surgery to GKS
 - BED
-- Medication hold
+- Medication hold status
+
+### 2.6 Dynamic Prediction Modeling
+
+> If longitudinal endocrine follow-up data are available, **dynamic prediction models will be constructed using landmark analysis or joint modeling approaches to update individualized risk estimates over time.**
+
+### 2.7 Exploratory Multimodal Modeling
+
+In centers with high-quality imaging and radiosurgical planning data, exploratory multimodal models integrating clinical, radiographic, and dosimetric features may be developed. Radiomics- or convolutional neural network–based analyses will be considered in selected subsets with sufficient data consistency.
+
+### 2.8 Clinical Translation
+
+> If model performance and generalizability are adequate, **the final model may be translated into a clinically applicable tool, such as a nomogram, web-based calculator, or risk stratification system.**
 
 ---
 
-## 8. Dynamic Prediction Modeling
-
-> **Dynamic prediction modeling using landmark analysis or joint modeling may be performed to update individualized remission probabilities over time as serial endocrine follow-up data become available.**
-
-This approach is especially suitable for:
-- Gradual remission over time
-- Dynamic IGF-1 changes
-- Long follow-up duration
-- Nonlinear progression patterns
-
----
-
-## 9. Model Translation
-
-> **The final predictive model may be translated into a clinically usable nomogram, web-based calculator, or risk stratification tool, depending on model performance and external validity.**
-
----
-
-## 10. Sample Size Constraint
+## 3. Sample Size Constraint
 
 > **Machine learning and deep learning analyses will be considered exploratory and will only be pursued if sample size, event number, and data completeness are sufficient to support robust model training and validation. To reduce overfitting, model complexity will be constrained according to the effective sample size and number of outcome events.**
 
 ---
 
-## 11. Outcome Modeling Specification
+## 4. Reporting Guidelines
 
-| Outcome | Modeling Approach |
-|---------|-------------------|
-| Durable remission | Time-to-event (Cox) |
-| Time to remission | Time-to-event (Cox) |
-| Biochemical recurrence | Time-to-event (Cox) |
-| New hypopituitarism | Binary / Time-to-event |
-| Salvage treatment | Binary (Logistic) |
+This analysis will follow:
+
+- **TRIPOD** for prediction model reporting
+- **STROBE** for observational study elements
+- **ML-specific**: Algorithm, tuning, hyperparameters, feature importance
 
 ---
 
-## 12. Candidate Predictor Variables
+## 5. Summary: Model Hierarchy
 
-| Category | Variables |
-|----------|-----------|
-| Demographics | Age, sex |
-| Endocrine | IGF-1 index, baseline GH, OGTT nadir GH |
-| Tumor | Tumor volume, Knosp grade |
-| Surgical | Interval from surgery to GKS, prior surgeries |
-| Medication | Peri-radiosurgical medication hold |
-| Radiosurgical | Margin dose, max dose, isodose, optic dose, BED, coverage |
-| Strategy | Whole-sella vs targeted |
+| Tier | Model Type | Role | Validation |
+|------|------------|------|------------|
+| **Primary** | Cox / Logistic / LASSO | Clinical inference, HR/OR, nomogram | Bootstrap + CV |
+| **Secondary** | XGBoost, RF, Survival forests | Predictive enhancement | CV + bootstrap |
+| **Exploratory** | DeepSurv, Multimodal CNN | Hypothesis-generating | Limited by n |
 
 ---
 
-## 13. Summary
-
-This study employs a **clinically interpretable statistical modeling framework as the primary analysis**, with machine learning models serving as predictive performance enhancers and deep learning reserved for exploratory analyses.
-
-| Tier | Model Type | Purpose |
-|------|------------|---------|
-| **Primary** | Cox / Logistic / LASSO | Clinical inference, HR/OR, nomogram |
-| **Secondary** | XGBoost, RF, Survival forests | Predictive enhancement |
-| **Exploratory** | DeepSurv, Multimodal CNN | Hypothesis-generating |
-
-This approach ensures:
-- ✅ IRB compatibility
-- ✅ Reviewer acceptance
-- ✅ Clinical journal standards compliance
-- ✅ Modern AI augmentation
-
----
-
-*Updated: 2026-03-19*
+*Section finalized: 2026-03-19*
