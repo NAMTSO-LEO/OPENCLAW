@@ -240,5 +240,158 @@ proc transpose data=ns out=total(drop=_name_) prefix=total;
  var count;
 run;
 
+/****************************************************************************
+ CREATE MACRO VARIABLES NUMD1 TO NUMD&GRPNO FOR THE SUBJECT COUNT IN HEADER 
+****************************************************************************/
+data _null_; 
+ set total;
+ array total{*} total1-total&grpno;
+ do j=1 to &grpno;
+ call symput('NUMD'||compress(put(j,best.)),'(N='||compress(put(total{j},4.))||')');
+ call symput('N'||compress(put(j,best.)),compress(put(total{j},4.)));
+ end;
+run;
+
+/*************************************************************
+* PERFORM THE PROC LIFETEST TO GET K-M ESTIMATES *
+**************************************************************/
+
+proc sort data= adtte3;
+ by &group;
+run;
+
+ods output quartiles= survqtle
+ censoredsummary= survnum
+ productlimitestimates= survest;
+
+proc lifetest data=adtte3 alpha = 0.05;
+ time month*event(0);
+ survival out=pplot stderr;
+ by &group;
+ title '95% CONFIDENCE INTERVAL OF THE SURVIVAL DISTRIBUTION (APLHA=0.05)';
+run;
+
+/**** get number and percent for event, censor, death ****/
+
+data events;
+ set adtte3;
+ if pdtpcd in (1,2) and event=1 then pd= 1; 
+ else if pdtpcd in (3) and event=1 then pd= 3;
+ else delete;
+ keep subjid &group pd;
+run;
+
+proc sort data=events;
+ by &group pd;
+run;
+
+proc means data= events noprint;
+ by &group pd;
+ var subjid;
+ output out= out1(drop= _type_ _freq_) sum= n=sumev;
+run;
+
+data dummy;
+ do &group=1 to &grpno;
+ do i=1,3;
+ pd=i;
+ output;
+ end;
+ end;
+ keep &group pd;
+run;
+
+proc sort data=out1 (drop=subjid);
+ by &group pd;
+run;
+
+data out1;
+ merge out1 dummy;
+ by &group pd;
+run;
+
+proc transpose data=out1 out=out2 (drop=_name_) prefix=sumev;
+ by &group;
+ id pd;
+ var sumev;
+run;
+
+/*************************************************************
+/**** GET NUMBER AND PERCENT FOR EVENT, CENSOR ****/
+*************************************************************/
+
+data survnum;
+ merge survnum(in=a) out2(in=b keep=&group sumev1 sumev3);
+ by &group;
+
+ pctfail=failed*100/total;
+ pctnofail=censored*100/total;
+
+ if failed=. then failed=0;
+ if censored=. then censored=0;
+ if total=. then total=0;
+
+ if failed^=0 then do;
+ event = compress(put(failed,3.))||' ('||compress(put(pctfail,5.1))||')';
+ end;
+ if failed=0 then do;
+ event = compress(put(failed,3.));
+ end;
+ if censored^=0 then do;
+ censor = compress(put(censored,3.))||' ('||compress(put(pctnofail,5.1))||')';
+ end;
+ if censored=0 then do;
+ censor = compress(put(censored,3.));
+ end;
+ 
+ tot= compress(put(total,4.));
+
+ if sumev1 > . then pded=compress(put(sumev1,3.));
+ else if sumev1 eq . then pded='0';
+
+ if sumev3 > . then ded=compress(put(sumev3,3.));
+ else if sumev3 eq . then ded='0';
+run;
+
+proc transpose data= survnum out= sur;
+ by &group;
+ var tot event censor ded pded ;
+run;
+
+/*************************************************************
+/**** GET QUATILS ****/
+*************************************************************/
+
+proc sort data=survqtle;
+ by &group percent;
+run;
+
+data qtle; set survqtle;
+ est=estimate;
+ ll=lowerlimit;
+ uu=upperlimit;
+
+ if est>. & ll>. & uu>. then do;
+ ciday=strip(put(est,5.1))||' ['||strip(put(ll,5.1))||', '||strip(put(uu,5.1))||']';
+ end;
+ else if est>. & uu=. & ll>. then do;
+ ciday=strip(put(est,5.1))||' ['||strip(put(ll,5.1))||', - ]';
+ end;
+ else if est>. & uu>. & ll=. then do;
+ ciday=strip(put(est,5.1))||' [ - ,'||strip(put(uu,5.1))||']';
+ end;
+ else if est>. & uu=. & ll=. then do;
+ ciday=strip(put(est,5.1))||' [ - , - ]';
+ end;
+ else if est=. & ll>. then do;
+ ciday=' -'||' ['||strip(put(ll,5.1))||', - ]';
+ end;
+ else do ;
+ ciday=' - [ -, - ]';
+ end;
+
+ keep &group percent ciday;
+run;
+
 %mend table;
 
