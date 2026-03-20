@@ -1,176 +1,117 @@
-# Predictive Modeling and Machine Learning Analysis
+# Machine Learning and Deep Learning Analysis
 
-*(Enhanced Section for Study Proposal)*
+## English Version
 
 ---
 
-## 1. Overall Modeling Strategy
+## 1. Overview
 
-A multimodal prediction framework will be developed to estimate:
+In addition to conventional regression-based analyses, this study will develop a **multimodal predictive modeling framework** to estimate:
 
 1. **Durable endocrine remission**
 2. **Time to endocrine remission**
-3. **Risk of biochemical recurrence**
-4. **Risk of new hypopituitarism**
-5. **Need for salvage intervention**
+3. **Biochemical recurrence**
+4. **New hypopituitarism**
+5. **Need for salvage treatment**
 
-The modeling framework will incorporate clinical, biochemical, surgical, radiographic, and radiosurgical dosimetric features. **Conventional regression-based models will serve as the primary clinically interpretable models**, while machine learning and deep learning approaches will be used as secondary or exploratory models to improve predictive performance and capture nonlinear interactions.
+Candidate predictors will include demographic, endocrine, surgical, radiographic, and dosimetric variables.
 
 ---
 
-## 2. Traditional Statistical Models (Primary)
+## 2. Model Hierarchy
 
-These will remain the primary inferential models:
+### Primary: Traditional Statistical Models
 
-| Model Type | Application |
+> **Conventional models, including penalized logistic regression and penalized Cox regression, will serve as the primary interpretable models.**
+
+| Model | Application |
+|-------|-------------|
+| Cox proportional hazards | Time-to-event outcomes |
+| Logistic regression | Binary outcomes |
+| LASSO/Elastic Net | Variable selection & shrinkage |
+
+### Secondary: Machine Learning
+
+Machine learning approaches will be evaluated as **secondary predictive models** to capture nonlinear associations and higher-order interactions:
+
+| Algorithm | Application |
 |------------|-------------|
-| Cox proportional hazards | Time-to-event endpoints (remission, recurrence, hypopituitarism) |
-| Logistic regression | Binary endpoints (remission yes/no, toxicity) |
-| Competing-risk models | If non-negligible death or alternative interventions |
-| LASSO/Elastic Net | Variable selection and shrinkage |
+| Random Forest | Binary outcomes |
+| Gradient Boosting | Binary/survival |
+| XGBoost | Binary/survival |
+| Support Vector Machines | Binary outcomes |
+| Random Survival Forests | Survival outcomes |
 
-### Why This Matters
+### Exploratory: Deep Learning
 
-Because the study aims not only to "predict" but also to answer **"which factors are associated?"**
-
-Reviewers value:
-- Interpretability
-- HR / OR estimates
-- Independent effects of clinical variables
-- Ability to generate nomograms / risk scores
-
-**Statistical models must be the primary models.**
+> If sample size and event counts are sufficient, **deep learning–based survival models such as DeepSurv or DeepHit** may be explored for time-to-event outcomes.
 
 ---
 
-## 3. Machine Learning and Deep Learning (Exploratory)
+## 3. Multimodal Exploratory Analysis
 
-> **Machine learning and deep learning analyses will be considered exploratory and will only be pursued if sample size, event number, and data completeness are sufficient to support robust model training and validation. To reduce overfitting, model complexity will be constrained according to the effective sample size and number of outcome events.**
+> For centers with sufficiently standardized imaging and radiosurgical planning data, exploratory multimodal models integrating clinical variables, MRI-derived features, and dosimetric parameters may also be developed.
+
+> Radiomics- or convolutional neural network–based analyses may be considered in a subset of patients with high-quality imaging data.
 
 ---
 
 ## 4. Data Preprocessing
 
-The following preprocessing steps will be applied:
+Model development will incorporate:
 
 | Step | Method |
 |------|--------|
 | Missing data | Multiple imputation or model-specific imputation |
-| Continuous variables | Standardization / normalization |
-| Categorical variables | One-hot or ordinal encoding |
-| Skewed biomarkers | Winsorization or transformation (GH, IGF-1) |
-| Laboratory harmonization | IGF-1 index and standardized endocrine definitions |
-| Center adjustment | Fixed effect, random effect, or stratified validation |
+| Scaling | Standardization/normalization |
+| Categorical encoding | One-hot or ordinal encoding |
+| Center harmonization | Fixed effect, random effect, stratified |
+| Skewed variables | Winsorization/transformation (GH, IGF-1) |
 
-> **To account for between-center heterogeneity, center identifier will be incorporated into the modeling pipeline, and center-level internal-external cross-validation will be performed whenever feasible.**
-
----
-
-## 5. Traditional Statistical Models (Primary)
-
-These will remain the primary inferential models:
-
-| Model Type | Application |
-|------------|-------------|
-| Cox proportional hazards | Time-to-event endpoints |
-| Logistic regression | Binary endpoints |
-| Competing-risk models | Competing risks |
-| LASSO/Elastic Net | Variable selection |
+> **Model complexity will be constrained according to effective sample size and event number to reduce overfitting.**
 
 ---
 
-## 6. Machine Learning Models (Secondary / Predictive Enhancement)
+## 5. Validation Strategy
 
-For predictive performance improvement:
-
-### For Binary Outcomes
-
-| Algorithm | Description |
-|-----------|-------------|
-| Random Forest | Ensemble tree-based |
-| XGBoost | Gradient boosting |
-| LightGBM / CatBoost | Advanced boosting |
-| SVM | Support Vector Machine |
-| Elastic Net Logistic | Regularized logistic |
-
-### For Time-to-Event Outcomes
-
-| Algorithm | Description |
-|-----------|-------------|
-| Random Survival Forest | Ensemble survival trees |
-| Gradient Boosting Survival | Boosting for survival |
-| Survival XGBoost | XGBoost for survival |
-| Penalized Cox | Regularized Cox |
-| DeepSurv | Deep learning survival (if n permits) |
-
----
-
-## 7. Deep Learning (Exploratory)
-
-### A. Survival Deep Learning
-
-> Deep learning–based survival models such as DeepSurv or DeepHit may be explored to model nonlinear relationships between baseline characteristics and time-to-remission or time-to-toxicity outcomes.
-
-**Suitable endpoints:** time to remission, recurrence, hypopituitarism
-
-### B. Multimodal Fusion
-
-> If imaging and radiosurgical planning data are available in standardized digital format, multimodal deep learning models integrating clinical variables, MRI-derived imaging features, and dosimetric parameters may be explored.
-
-### C. MRI Radiomics / CNN (Exploratory)
-
-> In centers with available high-quality pre-radiosurgical MRI data, radiomics- or CNN-based exploratory analyses may be performed to assess imaging signatures beyond conventional clinical models.
-
----
-
-## 8. Model Development and Validation
-
-### Split Strategy
-
-> The dataset will be randomly split into training and test cohorts only if sample size is sufficiently large; otherwise, repeated k-fold cross-validation or bootstrap resampling will be used.
-
-### Internal-External Validation (Priority)
-
-> **Given the multicenter design, internal-external validation will be prioritized, whereby models are iteratively trained on all but one center and tested on the held-out center. This will assess transportability across institutions.**
-
-### Validation Methods
+> **Validation will prioritize repeated cross-validation, bootstrap optimism correction, and internal-external validation across contributing centers.**
 
 | Method | Description |
 |--------|-------------|
-| Repeated 5-fold CV | Cross-validation |
-| Bootstrap resampling | Optimism correction |
-| Leave-one-center-out | Internal-external validation |
-| Calibration assessment | Calibration plots |
-| Decision curve analysis | Clinical utility |
+| Repeated K-fold CV | K=5 or 10 |
+| Bootstrap | Optimism correction |
+| Internal-external | Leave-one-center-out |
+| Calibration | Calibration plots |
+| Decision curve | Clinical utility |
 
 ---
 
-## 9. Model Performance Metrics
+## 6. Model Performance Metrics
 
 ### Binary Outcomes
 
 | Metric | Description |
 |--------|-------------|
 | Discrimination | AUC / C-statistic |
-| Calibration | Calibration slope, intercept, Brier score |
+| Calibration | Calibration slope, Brier score |
 | Clinical utility | Decision curve analysis |
-| Reclassification | NRI (when comparing models) |
+| Reclassification | NRI |
 
 ### Time-to-Event Outcomes
 
 | Metric | Description |
 |--------|-------------|
 | Discrimination | Harrell's C-index, time-dependent AUC |
-| Calibration | Integrated Brier score, calibration at 3/5/10 years |
+| Calibration | Integrated Brier, calibration at 3/5/10 years |
 | Clinical utility | Decision curve analysis |
 
 ---
 
-## 10. Model Interpretability
+## 7. Model Interpretability
 
-> **To improve clinical interpretability, variable importance measures, partial dependence plots, SHAP (Shapley additive explanations), and accumulated local effect plots may be used to characterize the contribution and directionality of key predictors across machine learning models.**
+> **Model interpretability will be assessed using variable importance measures and SHAP-based explanation methods.**
 
-SHAP is particularly suitable for interpreting:
+SHAP is particularly suitable for:
 - IGF-1 index
 - Knosp grade
 - Tumor volume
@@ -180,9 +121,9 @@ SHAP is particularly suitable for interpreting:
 
 ---
 
-## 11. Dynamic Prediction Models
+## 8. Dynamic Prediction Modeling
 
-> **Dynamic prediction models may be constructed using landmark analysis or joint modeling approaches to update individualized remission probabilities over time as serial endocrine measurements and interval imaging become available.**
+> **Dynamic prediction modeling using landmark analysis or joint modeling may be performed to update individualized remission probabilities over time as serial endocrine follow-up data become available.**
 
 This approach is especially suitable for:
 - Gradual remission over time
@@ -192,29 +133,60 @@ This approach is especially suitable for:
 
 ---
 
-## 12. Integration Summary
+## 9. Model Translation
 
-| Tier | Model Type | Role | Validation |
-|------|------------|------|------------|
-| **Primary** | Cox / Logistic | Clinical inference, HR/OR, nomogram | Bootstrap + CV |
-| **Secondary** | XGBoost, RF, Survival forests | Predictive enhancement | CV + bootstrap |
-| **Exploratory** | DeepSurv, Multimodal CNN | Novel methods | Limited by n |
+> **The final predictive model may be translated into a clinically usable nomogram, web-based calculator, or risk stratification tool, depending on model performance and external validity.**
 
 ---
 
-## 13. Key Message
+## 10. Sample Size Constraint
 
-> This study employs a **clinically interpretable statistical modeling framework as the primary analysis**, with machine learning models serving as predictive performance enhancers and deep learning reserved for exploratory analyses. This approach ensures IRB compatibility, reviewer acceptance, and alignment with clinical journal standards while leveraging modern AI methods to augment predictive capability.
-
----
-
-## 14. Reporting Guidelines
-
-- **TRIPOD** for prediction models
-- **ML-specific**: Algorithm, tuning, hyperparameters, feature importance
-- **SHAP values** for tree-based model interpretation
-- **Nomograms** for clinically interpretable models
+> **Machine learning and deep learning analyses will be considered exploratory and will only be pursued if sample size, event number, and data completeness are sufficient to support robust model training and validation. To reduce overfitting, model complexity will be constrained according to the effective sample size and number of outcome events.**
 
 ---
 
-*Section added: 2026-03-19*
+## 11. Outcome Modeling Specification
+
+| Outcome | Modeling Approach |
+|---------|-------------------|
+| Durable remission | Time-to-event (Cox) |
+| Time to remission | Time-to-event (Cox) |
+| Biochemical recurrence | Time-to-event (Cox) |
+| New hypopituitarism | Binary / Time-to-event |
+| Salvage treatment | Binary (Logistic) |
+
+---
+
+## 12. Candidate Predictor Variables
+
+| Category | Variables |
+|----------|-----------|
+| Demographics | Age, sex |
+| Endocrine | IGF-1 index, baseline GH, OGTT nadir GH |
+| Tumor | Tumor volume, Knosp grade |
+| Surgical | Interval from surgery to GKS, prior surgeries |
+| Medication | Peri-radiosurgical medication hold |
+| Radiosurgical | Margin dose, max dose, isodose, optic dose, BED, coverage |
+| Strategy | Whole-sella vs targeted |
+
+---
+
+## 13. Summary
+
+This study employs a **clinically interpretable statistical modeling framework as the primary analysis**, with machine learning models serving as predictive performance enhancers and deep learning reserved for exploratory analyses.
+
+| Tier | Model Type | Purpose |
+|------|------------|---------|
+| **Primary** | Cox / Logistic / LASSO | Clinical inference, HR/OR, nomogram |
+| **Secondary** | XGBoost, RF, Survival forests | Predictive enhancement |
+| **Exploratory** | DeepSurv, Multimodal CNN | Hypothesis-generating |
+
+This approach ensures:
+- ✅ IRB compatibility
+- ✅ Reviewer acceptance
+- ✅ Clinical journal standards compliance
+- ✅ Modern AI augmentation
+
+---
+
+*Updated: 2026-03-19*
