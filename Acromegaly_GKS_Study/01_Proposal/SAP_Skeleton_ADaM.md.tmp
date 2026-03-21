@@ -1,0 +1,619 @@
+# SAP骨架与ADaM数据集设计
+
+## SAP Statistical Analysis Plan
+
+---
+
+## 1. SAP骨架目录
+
+### 1. Title Page
+- Study title
+- Version
+- Date
+- Authors
+- Participating centers
+
+### 2. Introduction
+- Clinical background
+- Study rationale
+- Why cavernous sinus–invading acromegaly is a distinct subgroup
+- Role of GKS in multimodal management
+
+### 3. Objectives
+
+#### 3.1 Primary Objectives
+- Durable endocrine remission
+- Predictors of remission
+
+#### 3.2 Secondary Objectives
+- Radiographic control
+- Recurrence
+- Salvage treatment
+- Hypopituitarism
+- Toxicity
+
+#### 3.3 Exploratory Objectives
+- Early vs late remission
+- Medication hold
+- BED / dosimetry
+- Dynamic prediction model
+
+### 4. Study Design
+- International multicenter retrospective cohort
+- Index treatment definition
+- Follow-up definition
+- Analysis populations
+
+### 5. Analysis Populations
+
+#### 5.1 Full Analysis Set (FAS)
+All eligible patients meeting inclusion/exclusion criteria.
+
+#### 5.2 Endocrine Evaluable Set
+Patients with baseline endocrine data and at least one post-GKS endocrine assessment.
+
+#### 5.3 Imaging Evaluable Set
+Patients with at least one post-GKS MRI assessment.
+
+#### 5.4 Safety Set
+All patients who underwent eligible index GKS and have post-treatment safety follow-up.
+
+#### 5.5 Sensitivity Cohorts
+- Postoperative residual-only
+- Knosp 3–4 only
+- Excluding primary GKS
+- Targeted only / whole-sella only if needed
+
+### 6. Study Definitions
+
+#### 6.1 Index Date
+First eligible GKS date.
+
+#### 6.2 Baseline
+Closest assessment before index GKS within predefined window.
+
+#### 6.3 Endocrine Definitions
+- Uncontrolled disease
+- Endocrine control
+- Biochemical remission
+- Durable remission
+- Biochemical recurrence
+
+#### 6.4 Imaging Definitions
+- Stable disease
+- Regression
+- Progression
+- Tumor control
+
+#### 6.5 Safety Definitions
+- New hypopituitarism
+- Visual toxicity
+- Cranial neuropathy
+- Radionecrosis / ARE
+
+### 7. Endpoints
+
+#### 7.1 Primary Endpoints
+- Durable endocrine remission
+- Time to endocrine remission
+- Radiographic tumor control
+
+#### 7.2 Secondary Endpoints
+- Biochemical recurrence
+- Salvage therapy
+- New hypopituitarism
+- Visual toxicity
+- Cranial neuropathy
+- OS
+
+#### 7.3 Exploratory Endpoints
+- 36-month early vs late remission
+- 29-month sensitivity
+- Medication-hold effect
+- Dosimetric effect
+- Predictive model performance
+
+### 8. General Statistical Considerations
+- Descriptive methods
+- Significance level
+- Confidence intervals
+- Handling of continuous/categorical variables
+- Multiplicity: exploratory, no formal adjustment unless specified
+- Software: SAS / R / Python if ML arm included
+
+### 9. Handling of Missing Data
+- Missingness assessment
+- Complete-case as sensitivity
+- Multiple imputation strategy for covariates
+- No imputation for event dates/status unless specifically adjudicated
+
+### 10. Derivation Rules
+- IGF-1i
+- Baseline GH
+- Baseline tumor volume
+- Surgery-to-GKS interval
+- Early vs delayed GKS
+- Dose/BED strata
+- Medication status categories
+
+### 11. Statistical Methods
+
+11.1 Descriptive statistics
+
+11.2 Kaplan–Meier analyses
+
+11.3 Cox regression
+
+11.4 Logistic regression
+
+11.5 Weighted / propensity-based comparisons
+
+11.6 Sensitivity analyses
+
+11.7 Exploratory ML analyses
+
+### 12. Subgroup Analyses
+- Knosp 1–2 vs 3–4
+- Primary vs adjuvant GKS
+- Targeted vs whole-sella
+- Medication hold groups
+- Low vs high IGF-1i
+- Low vs high BED
+
+### 13. Tables, Listings, Figures
+- Planned TLF shells
+
+### 14. Quality Control
+- Data review
+- Programming validation
+- Endpoint adjudication
+
+### 15. References
+
+---
+
+## 2. ADaM数据集设计
+
+### 2.1 ADSL — Subject-Level Analysis Dataset
+
+**一人一行**
+
+| 变量 | 说明 |
+|------|------|
+| STUDYID | 研究编号 |
+| USUBJID | 受试者ID |
+| CENTER | 中心 |
+| COUNTRY | 国家 |
+| INDEXDT | 首次GKS日期 |
+| INDEXDY | 首次GKS相对天数 |
+| AGE | 年龄 |
+| AGEGR1 | 年龄组 |
+| SEX | 性别 |
+| KNOSP | Knosp分级 |
+| KNOSPGR | Knosp分组 |
+| CSI_CONF_FL | 海绵窦侵犯确认标志 |
+| CSI_DEF_TYPE | 海绵窦侵犯定义类型 |
+| BASE_TUMVOL | 基线肿瘤体积 |
+| BASE_LOC | 肿瘤位置 |
+| PRIMARY_GKS_FL | 是否初始GKS |
+| RECURRENT_FL | 复发标志 |
+| RESIDUAL_FL | 残留标志 |
+| PRIOR_SURG_N | 既往手术次数 |
+| LASTSURGDT | 最后手术日期 |
+| SURG2GKS_DAYS | 手术到GKS天数 |
+| SURG2GKS_MOS | 手术到GKS月数 |
+| EARLYGKS_FL | 早期GKS标志 |
+| PRIOR_MEDS_FL | 既往用药标志 |
+| PRIOR_RT_FL | 既往放疗标志 |
+| PRIMARYTX_GKS_FL | GKS初始治疗标志 |
+| BASE_IGF1 | 基线IGF-1 |
+| BASE_IGF1_ULN | 基线IGF-1正常上限 |
+| BASE_IGF1I | 基线IGF-1指数 |
+| BASE_GH | 基线GH |
+| BASE_OGTTGH | 基线OGTT谷值GH |
+| BASE_HORMBURDEN_GRP | 基线激素负荷组 |
+| PLAN_TYPE | 计划类型 |
+| TARGETED_FL | 靶向标志 |
+| WHOLESELLA_FL | 全鞍区标志 |
+| MARGINDOSE | 边缘剂量 |
+| MAXDOSE | 最大剂量 |
+| ISODOSE | 等剂量线 |
+| OPTICMAX | 视神经最大剂量 |
+| BED | 生物有效剂量 |
+| BEDGR1 | BED分组 |
+| TARGETVOL_CC | 靶区体积 |
+| MEDSTAT_GKS | GKS时用药状态 |
+| MEDHOLD_FL | 停药标志 |
+| MEDHOLD_CAT | 停药分类 |
+
+**MEDHOLD_CAT分类：**
+- NO_MED
+- ON_MED_NO_HOLD
+- ON_MED_HOLD
+- UNKNOWN
+
+| FUPDT | 随访日期 |
+| FUP_DAYS | 随访天数 |
+| FUP_MOS | 随访月数 |
+| REMISS_FL | 缓解标志 |
+| DURREMISS_FL | 持久缓解标志 |
+| RECURR_FL | 复发标志 |
+| TUMCTRL_FL | 肿瘤控制标志 |
+| PROG_FL | 进展标志 |
+| HYPOPIT_FL | 垂体功能减退标志 |
+| VISAETOX_FL | 视觉毒性标志 |
+| CNAETOX_FL | 颅神经毒性标志 |
+| SALVAGE_FL | 补救治疗标志 |
+| DEATH_FL | 死亡标志 |
+
+---
+
+### 2.2 ADENDO — Endocrine Longitudinal Dataset
+
+**一人多行，每次内分泌评估一行**
+
+| 变量 | 说明 |
+|------|------|
+| STUDYID | 研究编号 |
+| USUBJID | 受试者ID |
+| PARAMCD | 参数编码 |
+| ADT | 分析日期 |
+| ASSESSDT | 评估日期 |
+| ADY | 相对天数 |
+| AVISIT | 访视 |
+| AVISITN | 访视编号 |
+| DAYSFROMGKS | 距GKS天数 |
+| MOSFROMGKS | 距GKS月数 |
+| IGF1 | IGF-1值 |
+| IGF1_ULN | IGF-1正常上限 |
+| IGF1I | IGF-1指数 |
+| GH | 生长激素 |
+| OGTTGH | OGTT谷值GH |
+| ONMED_FL | 用药标志 |
+| ENDO_STATUS | 内分泌状态 |
+
+**ENDO_STATUS:**
+- UNCONTROLLED
+- ENDO_CONTROL
+- BIOCHEM_REM
+- DURABLE_CAND
+- RECURR
+
+| FIRSTREM_FL | 首次缓解标志 |
+| FIRSTCTRL_FL | 首次控制标志 |
+| RECURR_EVENT_FL | 复发事件标志 |
+
+---
+
+### 2.3 ADIMG — Imaging Analysis Dataset
+
+**一人多行，每次MRI一行**
+
+| 变量 | 说明 |
+|------|------|
+| STUDYID | 研究编号 |
+| USUBJID | 受试者ID |
+| ADT | 分析日期 |
+| MRIDT | MRI日期 |
+| ADY | 相对天数 |
+| DAYSFROMGKS | 距GKS天数 |
+| MOSFROMGKS | 距GKS月数 |
+| TUMVOL_CC | 肿瘤体积 |
+| VOLCHG_PCT | 体积变化百分比 |
+| MRIRESP | MRI反应 |
+| PROG_EVENT_FL | 进展事件标志 |
+| TUMCTRL_FL | 肿瘤控制标志 |
+| CAVRESID_FL | 海绵窦残留标志 |
+
+**MRIRESP:**
+- DECREASED
+- STABLE
+- PROGRESSED
+- UNEVAL
+
+---
+
+### 2.4 ADRAD — Radiosurgery Parameter Dataset
+
+**通常一人一行；若有多次SRS可一人多行**
+
+| 变量 | 说明 |
+|------|------|
+| STUDYID | 研究编号 |
+| USUBJID | 受试者ID |
+| GKSDT | GKS日期 |
+| GKSSEQ | GKS序号 |
+| PLAN_TYPE | 计划类型 |
+| TARGETVOL_CC | 靶区体积 |
+| MARGINDOSE | 边缘剂量 |
+| MAXDOSE | 最大剂量 |
+| ISODOSE | 等剂量线 |
+| OPTICMAX | 视神经最大剂量 |
+| BED | 生物有效剂量 |
+| NISOCENTER | 等中心数 |
+| TARGETDESC | 靶区描述 |
+
+---
+
+### 2.5 ADPIT — Pituitary Function Dataset
+
+**一人多行，每个axis每次评估一行**
+
+| 变量 | 说明 |
+|------|------|
+| STUDYID | 研究编号 |
+| USUBJID | 受试者ID |
+| AXIS | 垂体轴 |
+| ASSESSDT | 评估日期 |
+| DAYSFROMGKS | 距GKS天数 |
+| BASE_DEF_FL | 基线缺陷标志 |
+| NEWDEF_FL | 新发缺陷标志 |
+| DEF_STATUS | 缺陷状态 |
+
+**AXIS:**
+- THYROID
+- ADRENAL
+- GONADAL
+- GH
+- POSTPIT
+
+---
+
+### 2.6 ADAE — Safety Dataset
+
+**一人多行**
+
+| 变量 | 说明 |
+|------|------|
+| STUDYID | 研究编号 |
+| USUBJID | 受试者ID |
+| AESTDTC | 事件开始日期 |
+| AENDTC | 事件结束日期 |
+| AEDECOD | 标准术语 |
+| AECAT | 事件分类 |
+| AESER | 严重事件标志 |
+| AEGRD | 级别 |
+| AEREL | 与治疗关系 |
+| TRTEMFL | 治疗相关标志 |
+
+**重点派生类别：**
+- HYPOPIT_AE_FL
+- VISUAL_AE_FL
+- CN_AE_FL
+- ARE_AE_FL
+
+---
+
+### 2.7 ADINT — Subsequent Intervention Dataset
+
+**一人多行**
+
+| 变量 | 说明 |
+|------|------|
+| STUDYID | 研究编号 |
+| USUBJID | 受试者ID |
+| INTDT | 干预日期 |
+| INTDY | 相对天数 |
+| INTTYPE | 干预类型 |
+| INTREAS | 干预原因 |
+
+**INTTYPE:**
+- REPEAT_SURGERY
+- REPEAT_SRS
+- FRACTIONATED_RT
+- MED_ESCALATION
+
+---
+
+### 2.8 ADTTE — Time-to-Event Dataset
+
+**一人多终点，多行结构**
+
+| 变量 | 说明 |
+|------|------|
+| STUDYID | 研究编号 |
+| USUBJID | 受试者ID |
+| PARAMCD | 参数编码 |
+| PARAM | 参数 |
+| STARTDT | 起始日期 |
+| ADT | 事件日期 |
+| CNSR | 截尾标志 |
+| AVAL | 数值 |
+| EVNTDESC | 事件描述 |
+
+**推荐PARAMCD:**
+- TTRREM = time to first endocrine remission
+- TTDREM = time to durable remission confirmation
+- TTRREC = time to biochemical recurrence
+- TTPROG = time to radiographic progression
+- TTHYPO = time to new hypopituitarism
+- TTSALV = time to salvage treatment
+- OS = overall survival
+
+---
+
+## 3. 关键Derivation规则
+
+### 3.1 Baseline取值
+
+**原则：**
+- index GKS前最近一次
+- 优先窗口：90天
+- 放宽至180天
+- 超窗需flag
+
+**相关flag：**
+- BASE90_FL
+- BASE180_FL
+
+---
+
+### 3.2 IGF-1 Index
+
+BASE_IGF1I = BASE_IGF1 / BASE_IGF1_ULN
+
+如果ULN缺失，不能直接算，需要：
+- 查询中心参考范围
+- 若仍无，设缺失并单列
+
+---
+
+### 3.3 Early vs Delayed GKS
+
+**主分析建议预定义：**
+
+EARLYGKS_FL = Y if SURG2GKS_MOS <= 12
+                 = N if SURG2GKS_MOS > 12
+
+**敏感性分析可试：**
+- 6 months
+- 24 months
+- median split
+
+---
+
+### 3.4 Durable Remission
+
+**推荐操作定义：**
+
+**步骤1：** 找到首次满足以下条件的日期：
+- IGF1I <= 1
+- off medication
+- OGTTGH < 0.4 if available
+
+记为 first remission date
+
+**步骤2：** 若此后直到末次随访没有 recurrence：
+- DURREMISS_FL = Y
+
+否则：
+- REMISS_FL = Y
+- DURREMISS_FL = N
+
+---
+
+### 3.5 Biochemical Recurrence
+
+在已 remission 后，任何后续满足：
+- IGF1I > 1
+
+或
+- restart/escalation of GH/IGF-lowering medication because of biochemical failure
+
+可定义 recurrence
+
+---
+
+### 3.6 Tumor Progression
+
+**优先：**
+
+VOLCHG_PCT > 20%
+
+若无可靠体积：
+- 采用影像判读 progression
+
+---
+
+### 3.7 New Hypopituitarism
+
+某垂体轴在基线无缺陷，GKS后首次出现缺陷：
+
+NEWDEF_FL = Y
+
+**Subject-level:**
+- 任一轴新缺陷 = HYPOPIT_FL=Y
+
+---
+
+## 4. TLF Shell设计
+
+### Tables
+
+**Table 1:** Baseline characteristics overall and by plan type
+
+**Table 2:** Baseline characteristics by medication hold status
+
+**Table 3:** Outcome summary
+- remission
+- durable remission
+- recurrence
+- tumor control
+- progression
+- hypopituitarism
+- visual toxicity
+- cranial neuropathy
+- salvage
+
+**Table 4:** Multivariable Cox model for time to remission
+
+**Table 5:** Multivariable Cox model for time to hypopituitarism
+
+**Table 6:** Weighted comparison of targeted vs whole-sella
+
+**Table 7:** Weighted comparison of medication hold vs no hold
+
+### Figures
+
+**Figure 1:** Study flowchart
+
+**Figure 2:** KM for endocrine remission
+
+**Figure 3:** KM for progression-free survival
+
+**Figure 4:** KM for hypopituitarism-free survival
+
+**Figure 5:** Forest plot of Cox model
+
+**Figure 6:** Calibration plot for prediction model
+
+---
+
+## 5. 程序执行顺序
+
+1. 建 raw-to-analysis mapping spec
+2. 先出 ADSL
+3. 建 ADENDO / ADIMG / ADRAD / ADPIT / ADINT
+4. 根据 longitudinal 数据派生 ADTTE
+5. 先做 data review listing
+   - 日期逻辑
+   - baseline 合理性
+   - 缺失审计
+   - center 差异
+6. 跑 Table 1 / outcome summary
+7. 跑 KM + Cox
+8. 跑 propensity-weighted analyses
+9. 跑 prediction model
+
+---
+
+## 6. 现在就该先锁的10个字段
+
+这10个字段不统一，后面所有模型都会崩：
+
+1. GKS date
+2. Last surgery date
+3. Baseline IGF-1
+4. Baseline ULN
+5. Baseline GH
+6. Knosp grade
+7. Residual tumor volume
+8. Plan type
+9. Medication hold status
+10. Post-GKS remission / recurrence / hypopituitarism dates
+
+---
+
+## 7. 一句话项目管理层面的结论
+
+从数据科学执行角度，这个 study 不是先"选模型"，而是先把：
+
+**index date、baseline window、remission definition、progression definition、medication hold definition、plan type definition**
+
+这六件事锁死。
+
+这些锁死以后，传统统计和 ML 都能顺着跑。
+
+---
+
+*Document created: 2026-03-21*
