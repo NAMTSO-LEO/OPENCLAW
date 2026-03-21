@@ -310,4 +310,102 @@ Binary outcomes such as new hypopituitarism, visual toxicity, cranial neuropathy
 
 ---
 
-*Document created: 2026-03-21*
+## Planned Sensitivity Analyses
+
+### 1. Excluding Primary GKS Cases
+
+**English:** Excluding primary GKS cases.
+
+**中文:** 排除初始即接受GKS治疗的病例。
+
+---
+
+### 2. Postoperative Residual-Only Cohort
+
+**English:** Restricting the main cohort to postoperative residual-only cases.
+
+**中文:** 将主队列限制为仅术后残余病例。
+
+---
+
+### 3. Knosp Grade 3-4 Disease
+
+**English:** Restricting to Knosp grade 3–4 disease.
+
+**中文:** 限制为Knosp 3–4级疾病。
+
+---
+
+### 4. Whole-Sella vs Targeted Comparison
+
+**English:** Comparing whole-sella and targeted cohorts after matching or inverse probability weighting when sample size permits.
+
+**中文:** 在样本量允许的情况下，经匹配或逆概率加权后比较全鞍区与靶向治疗队列。
+
+---
+
+### 5. Stricter Remission Definitions
+
+**English:** Applying stricter remission definitions using combined IGF-1 and GH/OGTT criteria where available.
+
+**中文:** 在可行情况下，采用结合IGF-1和GH/OGTT标准的更严格缓解定义。
+
+---
+
+## Expected Clinical Impact
+
+**English:**
+
+This study is designed to answer a question not yet addressed by the existing literature in a unified way: among patients with cavernous sinus–invading acromegaly, which endocrine, anatomical, timing, and dosimetric factors predict durable remission without excessive toxicity after Gamma Knife radiosurgery? By focusing on a clinically distinct and surgically challenging subgroup, the study could refine patient selection for adjuvant radiosurgery, timing of radiosurgery or peri-radiosurgical medication management. These findings may provide useful guidance for surgical decision-making in the management of acromegaly.
+
+**中文:**
+
+本研究旨在以统一的方式回答当前文献尚未解决的一个问题：在海绵窦侵犯型肢端肥大症患者中，哪些内分泌，解剖、时机及剂量学因素能够预测伽玛刀放射外科治疗后在不过度增加毒性的前提下获得持久缓解？通过聚焦一个具有明确临床特征且手术处理具有挑战性的亚群，本研究有望优化辅助放射外科治疗的患者选择、放射外科治疗时机以及围放射外科期药物管理。这些发现可能为肢端肥大症的外科治疗决策提供有益指导。
+
+---
+
+## Selected References
+
+1. **Kim EH, Oh MC, Chang JH, et al.** Postoperative Gamma Knife radiosurgery for cavernous sinus–invading growth hormone–secreting pituitary adenomas. *World Neurosurg*. 2018.
+
+   Kim EH, Oh MC, Chang JH, 等. 术后伽玛刀放射外科治疗侵犯海绵窦的生长激素分泌性垂体腺瘤. *World Neurosurg*. 2018.
+
+2. **Lee CC, Vance ML, Xu Z, et al.** Stereotactic radiosurgery for acromegaly. *J Clin Endocrinol Metab*. 2014.
+
+   Lee CC, Vance ML, Xu Z, 等. 肢端肥大症的立体定向放射外科治疗. *J Clin Endocrinol Metab*. 2014.
+
+3. **Ding D, Starke RM, Kano H, et al.** Stereotactic radiosurgery for acromegaly: an international multicenter retrospective cohort study. *Neurosurgery*. 2019.
+
+   Ding D, Starke RM, Kano H, 等. 肢端肥大症的立体定向放射外科：一项国际多中心回顾性队列研究. *Neurosurgery*. 2019.
+
+4. **Patibandla MR, Xu Z, Sheehan JP.** Factors affecting early versus late remission in acromegaly following stereotactic radiosurgery. *J Neurooncol*. 2018.
+
+   Patibandla MR, Xu Z, Sheehan JP. 影响肢端肥大症立体定向放射外科后早期与晚期缓解的因素. *J Neurooncol*. 2018.
+
+5. **Shepard MJ, Mehta GU, et al.** Whole sella vs targeted stereotactic radiosurgery for acromegaly: a multicenter matched cohort study. 2020.
+
+   Shepard MJ, Mehta GU, 等. 全鞍区与靶向立体定向放射外科治疗肢端肥大症：一项多中心匹配队列研究. 2020.
+
+6. **Xu Z, Lee Vance M, et al.** Hypopituitarism after Gamma Knife radiosurgery for pituitary adenomas: a multicenter, international study. 2020.
+
+   Xu Z, Lee Vance M, 等. 垂体腺瘤伽玛刀放射外科治疗后的垂体功能减退：一项国际多中心研究. 2020.
+
+7. **Graffeo CS, Donegan D, Erickson D, et al.** The impact of insulin-like growth factor index and biologic effective dose in acromegaly radiosurgery. 2020.
+
+   Graffeo CS, Donegan D, Erickson D, 等. 类胰岛素生长因子指数和生物有效剂量对肢端肥大症放射外科治疗的影响. 2020.
+
+8. **Qian ZR / related BED study.** Role of biologically effective dose for prediction of endocrine remission in acromegaly patients treated with stereotactic radiosurgery. 2023.
+
+   Qian ZR / 相关BED研究. 生物有效剂量在预测接受立体定向放射外科治疗的肢端肥大症患者内分泌缓解中的作用. 2023.
+
+9. **Yarman S / large endoscopic surgery series.** Endoscopic transsphenoidal approach for acromegaly with remission rates in 401 patients. 2017.
+
+   Yarman S / 大型内镜手术系列. 内镜下经蝶窦入路治疗肢端肥大症：401例患者的缓解率研究. 2017.
+
+10. **Consensus on acromegaly therapeutic outcomes and 2025 update.**
+
+    肢端肥大症治疗结局共识及2025年更新。
+
+---
+
+*Document completed: 2026-03-21*
