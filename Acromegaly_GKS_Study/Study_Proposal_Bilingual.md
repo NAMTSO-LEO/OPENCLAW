@@ -192,4 +192,122 @@ measured IGF-1 divided by the age- and sex-adjusted upper limit of normal (ULN) 
 
 ---
 
+## Primary Endpoints
+
+### Durable Endocrine Remission
+
+**English:**
+
+Normalization of IGF-1 according to age- and sex-adjusted reference range, off GH/IGF-1–lowering medication, with supportive OGTT data (OGTT nadir GH < 0.4 ng/mL) when available, maintained without biochemical recurrence through last follow-up.
+
+**中文:**
+
+持久性内分泌缓解：依据年龄和性别校正参考范围，IGF-1恢复正常；停用GH/IGF-1降低药物；在有条件时有OGTT数据支持（OGTT最低GH < 0.4 ng/mL）；并持续至末次随访无生化复发。
+
+---
+
+### Endocrine Control
+
+**English:**
+
+Normalization of IGF-1 according to age- and sex-adjusted reference range, on GH/IGF-1–lowering medication.
+
+**中文:**
+
+内分泌控制：在使用GH/IGF-1降低药物的情况下，IGF-1根据年龄和性别校正参考范围恢复正常。
+
+---
+
+### Time to Endocrine Remission
+
+**English:**
+
+Interval from index Gamma Knife radiosurgery to first documented biochemical remission.
+
+**中文:**
+
+达到内分泌缓解的时间：从首次伽玛刀放射外科治疗到首次记录到生化缓解之间的时间间隔。
+
+---
+
+### Radiographic Tumor Control
+
+**English:**
+
+Stable or decreased adenoma volume on MRI after radiosurgery. Progression will preferably be defined as volumetric enlargement beyond 20% when reliable volumetric follow-up is available.
+
+**中文:**
+
+影像学肿瘤控制：放射外科治疗后MRI显示腺瘤体积稳定或缩小。若有可靠的体积随访数据，进展优先定义为体积增大超过20%。
+
+---
+
+## Secondary Endpoints
+
+**English:**
+
+1. Biochemical recurrence after initial remission.
+2. Need for additional intervention after index Gamma Knife radiosurgery, including repeat surgery, repeat SRS, fractionated radiotherapy, or escalation of medical therapy.
+3. New hypopituitarism.
+4. Visual toxicity, cranial neuropathy, and adverse radiation effects or radionecrosis.
+5. Overall survival.
+
+**中文:**
+
+1. 初始缓解后的生化复发。
+2. 首次伽玛刀放射外科后需要追加干预，包括再次手术、再次立体定向放射外科、分次放疗或药物治疗升级。
+3. 新发垂体功能减退。
+4. 视觉毒性、颅神经病变以及放射不良反应或放射性坏死。
+5. 总生存。
+
+---
+
+## Prespecified Exploratory Endpoints
+
+**English:**
+
+1. Early versus late remission, with a primary cutoff of 36 months from radiosurgery and sensitivity analyses using 29 months.
+2. Effect of peri-radiosurgical medication hold on remission and durability of biochemical control.
+3. Effect of dose and planning variables, including margin dose, maximum dose, isodose line, optic maximum dose, and biologically effective dose (BED) when calculable.
+
+**中文:**
+
+1. 早期缓解与晚期缓解，主要界值设定为放射外科治疗后36个月，并采用29个月进行敏感性分析。
+2. 围放射外科期停药对缓解及生化控制持久性的影响。
+3. 剂量和计划变量的影响，包括边缘剂量、最大剂量、等剂量线、视路最大剂量以及在可计算时的生物有效剂量（BED）。
+
+---
+
+## Statistical Analysis
+
+**English:**
+
+Kaplan–Meier methods will estimate time to endocrine remission, durable remission, recurrence-free survival, progression-free survival, and time to new hypopituitarism. Log-rank testing will compare early versus delayed radiosurgery, targeted versus whole-sella plans, medication hold versus no hold, low versus high IGF-1 index, and low versus high dose/BED strata.
+
+**中文:**
+
+将采用Kaplan–Meier方法估计达到内分泌缓解、持久缓解、无复发生存、无进展生存以及发生新发垂体功能减退的时间。采用log-rank检验比较早期与延迟放射外科、靶向治疗与全鞍区计划、停药与未停药、低与高IGF-1指数、以及低与高剂量/BED分层之间的差异。
+
+---
+
+**English:**
+
+Cox proportional hazards models will evaluate predictors of remission, recurrence, and hypopituitarism. Candidate variables will include age, sex, IGF-1 index, baseline GH, OGTT nadir GH, tumor volume, Knosp grade, interval from surgery to GKS, medication hold, whole-sella versus targeted plan, margin dose, isodose line, and BED. Variables with p < 0.10 on univariate analysis or strong biological plausibility will enter multivariable models.
+
+**中文:**
+
+将采用Cox比例风险模型评估缓解、复发及垂体功能减退的预测因素。候选变量包括年龄、性别、IGF-1指数、基线GH、OGTT最低GH、肿瘤体积、Knosp分级、从手术到GKS的时间间隔、停药情况、全鞍区与靶向计划、边缘剂量、等剂量线及BED。在单因素分析中p < 0.10或具有较强生物学合理性的变量将纳入多因素模型。
+
+---
+
+**English:**
+
+Binary outcomes such as new hypopituitarism, visual toxicity, cranial neuropathy, and need for salvage treatment will be assessed using logistic regression. Complete-case analysis will be primary, with multiple imputation considered if missingness is moderate and appropriate for model assumptions. Statistical significance will be defined as a two-sided p-value < 0.05.
+
+**中文:**
+
+对于新发垂体功能减退、视觉毒性、颅神经病变及是否需要挽救治疗等二分类结局，将采用logistic回归进行评估。以完整病例分析为主；若缺失程度中等且符合模型假设，将考虑采用多重插补。统计学显著性定义为双侧p值 < 0.05。
+
+---
+
 *Document created: 2026-03-21*
