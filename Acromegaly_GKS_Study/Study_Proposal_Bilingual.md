@@ -1,4 +1,4 @@
-# Study Proposal
+# Study Proposal (Bilingual)
 
 ---
 
@@ -66,7 +66,129 @@ We hypothesize that GKS provides high long-term tumor control and clinically mea
 
 **中文:**
 
-我们假设，GKS可为海绵窦侵犯型肢端肥大症患者提供较高的长期肿瘤控制率和具有临床意义的内分泌缓解，但持久缓解及毒性反应会受到基线激素负荷，海绵窦残余肿瘤体积和位置、从手术到放射外科的时间间隔、围放射外科期药物状态以及放射外科计划变量的显著影响。
+我们假设，GKS可为海绵窦侵犯型肢端肥大症患者提供较高的长期肿瘤控制率和具有临床意义的内分泌缓解，但持久缓解及毒性反应会受到基线激素负荷、海绵窦残余肿瘤体积和位置、从手术到放射外科的时间间隔、围放射外科期药物状态以及放射外科计划变量的显著影响。
+
+---
+
+## Study Objectives
+
+**English:**
+
+1. To determine rates and predictors of durable endocrine remission after Gamma Knife radiosurgery for cavernous sinus–invading acromegaly.
+
+2. To characterize the timing of endocrine remission, including early versus late remission.
+
+3. To evaluate long-term radiographic control, biochemical recurrence, and need for salvage therapy.
+
+4. To define the incidence and predictors of hypopituitarism and other radiation-related adverse effects.
+
+5. To study whether treatment timing, medication hold and advanced dosimetric variables such as BED influence remission and toxicity.
+
+6. Integrating surgical, radiosurgical, radiographic and biochemical factors, to make a dynamic prediction model for multimodal treatment outcomes in acromegaly.
+
+**中文:**
+
+1. 确定海绵窦侵犯型肢端肥大症接受伽玛刀放射外科治疗后持久内分泌缓解的发生率及其预测因素。
+
+2. 描述内分泌缓解的时间特征，包括早期缓解与晚期缓解。
+
+3. 评估长期影像学控制、生化复发以及是否需要挽救治疗。
+
+4. 明确垂体功能减退及其他放射相关不良反应的发生率及预测因素。
+
+5. 研究治疗时机、停药情况以及诸如生物有效剂量（BED）等高级剂量学变量是否影响缓解和毒性。
+
+6. 整合手术、放射外科、影像学及生化因素，建立一个用于预测肢端肥大症多模式治疗结局的动态预测模型。
+
+---
+
+## Patient Inclusion Criteria
+
+**English:**
+
+1. Clinical and biochemical diagnosis of acromegaly before radiosurgery, supported by elevated IGF-1 and/or inadequate GH suppression on oral glucose tolerance testing, according to local endocrine standards.
+
+2. Radiographic evidence of cavernous sinus–invading disease before or at the time of Gamma Knife radiosurgery, defined by at least one of the following: Knosp grade 1-4, postoperative MRI evidence of residual adenoma within the cavernous sinus, or treatment planning documentation showing a targeted intracavernous remnant.
+
+3. Treatment with Gamma Knife radiosurgery as postoperative adjuvant therapy for residual or recurrent acromegaly, or as primary treatment only when surgery was contraindicated or declined.
+
+4. Minimum endocrine follow-up of 12 months after index Gamma Knife radiosurgery.
+
+5. Availability of at least one post-radiosurgical endocrine evaluation and one post-radiosurgical imaging evaluation.
+
+**中文:**
+
+1. 在接受放射外科治疗前具有肢端肥大症的临床及生化诊断，并根据当地内分泌标准由IGF-1升高和/或口服葡萄糖耐量试验中GH抑制不足支持。
+
+2. 在伽玛刀放射外科治疗前或治疗时具有海绵窦侵犯性疾病的影像学证据，定义为至少符合以下之一：Knosp分级1-4级、术后MRI显示海绵窦内有残余腺瘤，或治疗计划文件显示靶向海绵窦内残留病灶。
+
+3. 接受伽玛刀放射外科作为术后辅助治疗，用于残余性或复发性肢端肥大症；若手术禁忌或患者拒绝手术，则可作为初始治疗。
+
+4. 首次伽玛刀放射外科治疗后内分泌随访时间至少12个月。
+
+5. 至少具备一次放射外科治疗后的内分泌评估和一次治疗后的影像学评估。
+
+---
+
+## Patient Exclusion Criteria
+
+**English:**
+
+1. No convincing evidence of cavernous sinus involvement or targeted intracavernous disease.
+
+2. Non–growth hormone–secreting lesions or mixed sellar lesions without sufficient evidence that acromegaly was the primary treated condition.
+
+3. Prior fractionated pituitary radiotherapy before the index Gamma Knife radiosurgery under study.
+
+4. Prior stereotactic radiosurgery to the same lesion before the index treatment, unless the case is contributed to a predefined repeat-radiosurgery subanalysis.
+
+5. Inadequate follow-up of less than 12 months or absence of sufficient endocrine or imaging data to assess outcomes.
+
+6. Absence of key baseline endocrine data necessary to classify biochemical outcome.
+
+7. Cases in which the radiosurgical target cannot be categorized as targeted cavernous sinus treatment or whole-sellar coverage strategy.
+
+**中文:**
+
+1. 无充分证据表明存在海绵窦受累或靶向海绵窦内病变。
+
+2. 非生长激素分泌性病变，或鞍区混合性病变且无充分证据表明肢端肥大症是主要治疗对象。
+
+3. 在本研究所纳入的首次伽玛刀放射外科治疗前曾接受过分次垂体放疗。
+
+4. 在本次治疗前对同一病灶曾接受过立体定向放射外科，除非该病例被纳入预先设定的重复放射外科亚组分析。
+
+5. 随访不足12个月，或缺乏足够的内分泌或影像学数据以评估结局。
+
+6. 缺乏用于判定生化结局所必需的关键基线内分泌数据。
+
+7. 放射外科靶区无法归类为靶向海绵窦治疗或全鞍区覆盖策略的病例。
+
+---
+
+## Definitions
+
+### Cavernous sinus–invading acromegaly
+
+**English:**
+
+Cases must satisfy at least one objective radiographic or treatment-based marker of cavernous sinus invasion or targeted intracavernous residual disease. Cases limited to suspected isolated medial wall involvement without convincing intracavernous extension should be recorded separately and may be analyzed in sensitivity cohorts (Knosp grade 1-2).
+
+**中文:**
+
+病例必须满足至少一项客观的影像学或治疗依据，以证明存在海绵窦侵犯或靶向海绵窦内残余病灶。若病例仅限于疑似孤立性内侧壁受累而无明确海绵窦内扩展证据，应单独记录，并可在敏感性分析队列中进行分析（Knosp 1-2级）。
+
+---
+
+### IGF-1i
+
+**English:**
+
+measured IGF-1 divided by the age- and sex-adjusted upper limit of normal (ULN) / IGF-1i = IGF-1 / ULN
+
+**中文:**
+
+实测IGF-1除以按年龄和性别校正后的正常上限（ULN），即 IGF-1i = IGF-1 / ULN。
 
 ---
 
