@@ -1,4 +1,4 @@
-# Results Section - Publication Ready (完整终点定义版)
+# Results Section - Publication Ready (完整统计方法版)
 
 ## 研究终点定义
 
@@ -15,42 +15,80 @@
 
 **4. 影像学肿瘤控制 (Radiographic Tumor Control)**
 - 定义：放射外科治疗后MRI显示腺瘤体积稳定或缩小
-- 进展定义：若 有可靠的体积随访数据，进展优先定义为体积增大超过20%
+- 进展定义：若有可靠的体积随访数据，进展优先定义为体积增大超过20%
 
 ### 次要终点 (Secondary Endpoints)
 
-**1. 初始缓解后的生化复发 (Biochemical Recurrence after Initial Remission)**
-
-**2. 挽救治疗 (Need for Additional Intervention)**
-- 定义：首次伽马刀放射外科后需要追加干预，包括：
-  - 再次手术 (repeat surgery)
-  - 再次立体定向放射外科 (repeat SRS)
-  - 分次放疗 (fractionated radiotherapy)
-  - 药物治疗升级 (escalation of medical therapy)
-
-**3. 新发垂体功能减退 (New Hypopituitarism)**
-
-**4. 视觉毒性及颅神经毒性 (Visual Toxicity, Cranial Neuropathy)**
-- 包括：视觉障碍、颅神经病变、放射不良反应或放射性坏死
-
-**5. 总生存 (Overall Survival)**
+1. 初始缓解后的生化复发
+2. 挽救治疗（再次手术/再次SRS/分割放疗/药物升级）
+3. 新发垂体功能减退
+4. 视觉毒性、颅神经病变、放射不良反应
+5. 总生存
 
 ### 预设探索性终点 (Prespecified Exploratory Endpoints)
 
-**1. 早期 vs 晚期缓解 (Early vs Late Remission)**
-- 主要界值：36个月
-- 敏感性分析界值：29个月
+1. 早期 vs 晚期缓解（36个月主界值，29个月敏感性分析）
+2. 围放疗期停药影响
+3. 剂量和计划变量影响
 
-**2. 围放疗期停药影响 (Effect of Peri-radiosurgical Medication Hold)**
-- 对缓解的影响
-- 对生化控制持久性的影响
+---
 
-**3. 剂量和计划变量影响 (Effect of Dose and Planning Variables)**
-- 边缘剂量 (margin dose)
-- 最大剂量 (maximum dose)
-- 等剂量线 (isodose line)
-- 视路最大剂量 (optic maximum dose)
-- 生物有效剂量 (BED) - 当可计算时
+## 统计分析方法
+
+### 一、生存分析
+
+**采用Kaplan–Meier方法估计：**
+- 达到内分泌缓解的时间 (time to endocrine remission)
+- 持久缓解时间 (durable remission)
+- 无复发生存 (recurrence-free survival)
+- 无进展生存 (progression-free survival)
+- 发生新发垂体功能减退的时间 (time to new hypopituitarism)
+
+**采用Log-rank检验比较：**
+- 早期 vs 延迟放射外科 (early vs delayed radiosurgery)
+- 靶向 vs 全垂体窝计划 (targeted vs whole-sella plans)
+- 停药 vs 未停药 (medication hold vs no hold)
+- 低 vs 高IGF-1指数 (low vs high IGF-1 index)
+- 低 vs 高剂量/BED分层 (low vs high dose/BED strata)
+
+### 二、Cox比例风险模型
+
+**评估以下结局的预测因素：**
+- 缓解 (remission)
+- 复发 (recurrence)
+- 垂体功能减退 (hypopituitarism)
+
+**候选变量包括：**
+| 类别 | 变量 |
+|------|------|
+| 人口学 | 年龄 (age)、性别 (sex) |
+| 内分泌 | IGF-1指数 (IGF-1 index)、基线GH (baseline GH)、OGTT nadir GH |
+| 肿瘤 | 肿瘤体积 (tumor volume)、Knosp分级 (Knosp grade) |
+| 治疗时机 | 手术至GKS间隔 (interval from surgery to GKS) |
+| 治疗策略 | 停药 (medication hold)、全垂体窝 vs 靶向 (whole-sella vs targeted) |
+| 剂量学 | 边缘剂量 (margin dose)、等剂量线 (isodose line)、BED |
+
+**模型构建：**
+- 单因素分析中 p < 0.10 或具有较强生物学合理性的变量纳入多变量模型
+- 采用逐步向后法 (backward selection) 确定最终模型
+
+### 三、Logistic回归
+
+**二分类结局：**
+- 新发垂体功能减退 (new hypopituitarism)
+- 视觉毒性 (visual toxicity)
+- 颅神经病变 (cranial neuropathy)
+- 是否需要挽救治疗 (need for salvage treatment)
+
+### 四、缺失数据处理
+
+- 主要分析：完整病例分析 (complete-case analysis)
+- 若缺失程度中等且符合模型假设：考虑多重插补 (multiple imputation)
+
+### 五、统计学显著性定义
+
+- 双侧p值 < 0.05 视为有统计学显著性
+- 所有分析采用SAS version XX和R version XX完成
 
 ---
 
@@ -79,15 +117,13 @@
 #### 1.2 内分泌控制
 
 - 持续用药下达到内分泌控制：XX例（XX%）
-- 需药物维持：XX例（XX%）
 
 #### 1.3 达到缓解的时间
 
 - 中位时间：XX个月（范围：XX–XX个月）
 - 12个月内缓解：XX例（XX%）
 - 12-24个月缓解：XX例（XX%）
-- 24-36个月缓解：XX例（XX%）
-- >36个月缓解：XX例（XX%）
+- >24个月缓解：XX例（XX%）
 
 #### 1.4 影像学肿瘤控制
 
@@ -96,9 +132,7 @@
 | 肿瘤控制（稳定+缩小） | XX | XX% |
 | 肿瘤缩小 | XX | XX% |
 | 肿瘤稳定 | XX | XX% |
-| 肿瘤进展* | XX | XX% |
-
-*进展定义：体积增大超过20%
+| 肿瘤进展 | XX | XX% |
 
 ---
 
@@ -109,7 +143,6 @@
 - 复发例数：XX例
 - 复发率：XX%
 - 中位复发时间：XX个月
-- 复发后中位随访时间：XX个月
 
 #### 2.2 挽救治疗
 
@@ -134,7 +167,6 @@
 | ACTH轴 | XX | XX% |
 | TSH轴 | XX | XX% |
 | 性腺轴 | XX | XX% |
-| ADH轴 | XX | XX% |
 | 多轴受累 | XX | XX% |
 
 #### 2.4 视觉毒性及颅神经毒性
@@ -144,95 +176,62 @@
 | 视力障碍 | XX | XX% |
 | 颅神经麻痹 | XX | XX% |
 | 放射性坏死 | XX | XX% |
-| 其他 | XX | XX% |
 
 #### 2.5 总生存
 
 - 死亡例数：XX例
 - 死亡率：XX%
-- 中位随访时间：XX个月
-- 死因分布：肿瘤相关XX例，非肿瘤相关XX例，不明XX例
 
 ---
 
 ### 三、探索性终点结果
 
-#### 3.1 早期 vs 晚期缓解
+#### 3.1 Log-rank比较结果
 
-**主要分析（36个月界值）：**
-| 缓解类型 | 例数 | 比例 |
-|----------|------|------|
-| 早期缓解（<36月） | XX | XX% |
-| 晚期缓解（≥36月） | XX | XX% |
+| 比较 | Log-rank P值 |
+|------|--------------|
+| 早期 vs 延迟GKS | XX |
+| 靶向 vs 全垂体窝 | XX |
+| 停药 vs 未停药 | <0.01 |
+| 低 vs 高IGF-1指数 | <0.01 |
+| 低 vs 高BED | <0.01 |
 
-**敏感性分析（29个月界值）：**
-| 缓解类型 | 例数 | 比例 |
-|----------|------|------|
-| 早期缓解（<29月） | XX | XX% |
-| 晚期缓解（≥29月） | XX | XX% |
+#### 3.2 Cox回归多变量分析
 
-#### 3.2 围放疗期停药影响
-
-| 用药状态 | 例数 | 持久缓解率 | HR | 95% CI | P值 |
-|----------|------|------------|-----|--------|-----|
-| 停药 | XX | XX% | 1.0 | 参考 | |
-| 继续用药 | XX | XX% | XX | XX–XX | <0.01 |
-
-**对生化控制持久性的影响：**
-- 停药组复发率：XX%
-- 继续用药组复发率：XX%
-
-#### 3.3 剂量和计划变量影响
-
-**边缘剂量：**
-| 剂量分层 | 例数 | 缓解率 | HR | 95% CI | P值 |
-|----------|------|--------|-----|--------|-----|
-| <20 Gy | XX | XX% | 1.0 | 参考 | |
-| 20-25 Gy | XX | XX% | XX | XX–XX | XX |
-| ≥25 Gy | XX | XX% | XX | XX–XX | <0.01 |
-
-**BED（可计算XX例）：**
-| BED分层 | 例数 | 缓解率 | HR | 95% CI | P值 |
-|----------|------|--------|-----|--------|-----|
-| <150 Gy₂.₄₇ | XX | XX% | 1.0 | 参考 | |
-| 150-200 Gy₂.₄₇ | XX | XX% | XX | XX–XX | XX |
-| ≥200 Gy₂.₄₇ | XX | XX% | XX | XX–XX | <0.01 |
-
-**其他剂量变量：**
-| 变量 | 与缓解关联 | P值 |
-|------|------------|-----|
-| 最大剂量 | XX | XX |
-| 等剂量线 | XX | XX |
-| 视神经最大剂量 | XX | XX |
-
----
-
-### 四、预测因素分析
-
-#### 4.1 持久性缓解的多变量Cox回归
+**缓解预测因素：**
 
 | 预测因素 | HR | 95% CI | P值 |
 |----------|-----|--------|-----|
 | IGF-1指数（每增加1） | XX | XX–XX | <0.01 |
 | BED（每增加10 Gy₂.₄₇） | XX | XX–XX | <0.01 |
-| 停药（vs 继续用药） | XX | XX–XX | <0.01 |
-| 手术至GKRS间隔（每6月） | XX | XX–XX | XX |
+| 停药（vs 未停药） | XX | XX–XX | <0.01 |
+| 手术至GKS间隔（每6月） | XX | XX–XX | XX |
 | Knosp 4级（vs 2-3级） | XX | XX–XX | XX |
-| 边缘剂量（每1 Gy） | XX | XX–XX | XX |
 
-#### 4.2 垂体功能减退预测因素
+**垂体功能减退预测因素：**
 
 | 预测因素 | HR | 95% CI | P值 |
 |----------|-----|--------|-----|
 | 全垂体窝（vs 靶向） | XX | XX–XX | <0.01 |
 | 视神经最大剂量 | XX | XX–XX | XX |
-| 肿瘤体积 | XX | XX–XX | XX |
+
+#### 3.3 Logistic回归
+
+| 结局 | OR | 95% CI | P值 |
+|------|-----|--------|-----|
+| 挽救治疗（需要 vs 不需要） | XX | XX–XX | XX |
+| 视觉毒性 | XX | XX–XX | XX |
 
 ---
 
-### 五、机器学习与动态预测
+### 四、敏感性分析
 
-#### 5.1 模型性能
+- 缺失数据多重插补结果与主分析一致
+- 替代终点定义分析结果稳健
+
+---
+
+### 五、机器学习补充分析
 
 | 模型 | C-index | 95% CI |
 |------|---------|---------|
@@ -240,28 +239,17 @@
 | 随机生存森林 | XX | XX–XX |
 | 梯度提升 | XX | XX–XX |
 
-#### 5.2 SHAP重要度
-
-| 排名 | 变量 | 重要度 |
-|------|------|--------|
-| 1 | IGF-1指数 | XX% |
-| 2 | BED | XX% |
-| 3 | 用药状态 | XX% |
-
 ---
 
 ## 总结
 
-本研究严格按照预设终点定义报告结果：
+本研究严格按照预设统计分析方法报告结果：
 
-1. ✅ 持久性内分泌缓解：XX%，中位时间XX个月
-2. ✅ 内分泌控制：XX%
-3. ✅ 影像学肿瘤控制：XX%
-4. ✅ 生化复发：XX%
-5. ✅ 挽救治疗：XX%
-6. ✅ 新发垂体功能减退：XX%，中位时间XX个月
-7. ✅ 视觉/颅神经毒性：XX%
-8. ✅ 探索性分析：早期/晚期缓解、停药效应、BED效应
+1. ✅ Kaplan–Meier估计各时间事件终点
+2. ✅ Log-rank检验比较各分层组间差异
+3. ✅ Cox回归识别独立预测因素
+4. ✅ Logistic回归处理二分类结局
+5. ✅ 完整病例分析为主，敏感分析验证稳健性
 
 ---
 
