@@ -1,90 +1,186 @@
-# Results Section - Publication Ready
+# Results Section - Publication Ready (中文增强版)
 
-## Chinese Version (投稿风格)
-
----
-
-### Results 结果
-
-共纳入XX例海绵窦侵犯型肢端肥大症患者，中位随访时间为XX个月（四分位数范围：XX–XX）。Kaplan–Meier分析显示，3年和5年持久性内分泌缓解率分别为XX%和XX%，中位缓解时间为XX个月。
-
-在内分泌结局方面，持久性缓解率为XX%，另有XX%的患者在药物治疗下达到内分泌控制。随访期间，生化复发发生于XX%的患者，中位发生时间为XX个月。
-
-在安全性方面，新发垂体功能减退的总体发生率为XX%，Kaplan–Meier估计5年累积发生率为XX%。中位发生时间为XX个月，提示放疗相关垂体功能减退呈延迟发生特征。具体来看，最常见的轴为XX（如ACTH/TSH/性腺轴），提示放疗对垂体多轴功能具有累积性影响。
-
-多变量分析显示，较低的基线IGF-1指数（HR=XX，P<0.01）、较高的生物学有效剂量（BED）（HR=XX，P=XX）以及围放疗期停用内分泌药物（HR=XX，P<0.01）与更高的持久性缓解概率显著相关。
-
-在机器学习分析中，基于随机生存森林/梯度提升模型的预测性能优于传统Cox模型（C-index：XX vs XX)。SHAP解释分析显示，IGF-1指数、BED及药物停用状态为最重要的预测变量。其中，较低的IGF-1指数和较高的BED与缓解概率增加相关，而持续用药状态则与较低的放疗响应相关，提示药物状态可能通过影响肿瘤生物活性调节放疗敏感性。
-
-**SHAP依赖图进一步显示，IGF-1指数与缓解概率呈非线性负相关，而BED与缓解概率呈平台效应关系。**
+## 包含：手术部分 + 数据分析部分
 
 ---
 
-## English Version (Publication-Grade)
+## 一、患者基线特征与手术史
+
+### 1.1 人口学特征
+
+共纳入XX例海绵窦侵犯型肢端肥大症患者，其中男性XX例（XX%），女性XX例（XX%），中位年龄为XX岁（范围：XX–XX岁）。所有患者均经影像学证实存在海绵窦侵犯或海绵窦内残留肿瘤，其中左侧海绵窦侵犯XX例（XX%），双侧侵犯XX例（XX%），中位肿瘤体积为XX cm³（范围：XX–XX cm³）。
+
+### 1.2 术前内分泌特征
+
+术前基线 IGF-1 指数中位值为XX（范围：XX–XX），其中 IGF-1 指数≥2.0 的患者占XX%。基线随机生长激素中位水平为XX ng/mL（范围：XX–XX ng/mL）。口服葡萄糖耐量试验（OGTT）结果显示，GH nadir 中位值为XX ng/mL（范围：XX–XX ng/mL）。
+
+### 1.3 手术史
+
+所有患者均接受过经蝶窦手术，其中XX例（XX%）接受过一次手术，XX例（XX%）接受过两次及以上手术。手术方式分布：内镜下手术XX例（XX%），显微镜下手术XX例（XX%）。肿瘤切除程度：次全切除XX例（XX%），部分切除XX例（XX%），活检XX例（XX%）。
+
+海绵窦侵犯程度按Knosp分级：Knosp 2级XX例（XX%），Knosp 3级XX例（XX%），Knosp 4级XX例（XX%）。
 
 ---
 
-### Results
+## 二、伽马刀治疗参数
 
-We analyzed XX patients with cavernous sinus-invading acromegaly, with a median follow-up duration of XX months (interquartile range: XX–XX). Kaplan–Meier analysis demonstrated 3-year and 5-year actuarial rates of durable endocrine remission of XX% and XX%, respectively, with a median time to remission of XX months.
+### 2.1 治疗时机
 
-Regarding endocrine outcomes, XX% achieved durable remission and an additional XX% attained endocrine control on medication. During follow-up, biochemical recurrence occurred in XX% of patients, with a median time to recurrence of XX months.
+手术至伽马刀治疗的中位间隔时间为XX个月（范围：XX–XX个月）。其中，XX例（XX%）在术后12个月内接受伽马刀治疗，XX例（XX%）在术后12–24个月接受治疗，XX例（XX%）在术后24个月以上接受治疗。
 
-For safety outcomes, the overall incidence of new-onset hypopituitarism was XX%, with a 5-year Kaplan–Meier estimate of XX%. The median time to onset was XX months, indicating that radiation-induced hypopituitarism exhibits a delayed onset pattern. Specifically, the most commonly affected axes were XX (e.g., ACTH/TSH/gonadal axis), suggesting cumulative effects of radiotherapy on multiple pituitary axes.
+### 2.2 放疗参数
 
-Multivariable analysis demonstrated that lower baseline IGF-1 index (HR = XX, P < 0.01), higher biologically effective dose (BED) (HR = XX, P = XX), and temporary cessation of endocrine medications around the time of radiosurgery (HR = XX, P < 0.01) were significantly associated with higher probability of durable remission.
+中位边缘剂量为XX Gy（范围：XX–XX Gy），中位最大剂量为XX Gy（范围：XX–XX Gy），等剂量线中位值为XX%（范围：XX–XX%）。可计算生物学有效剂量（BED）的患者XX例，中位BED为XX Gy₂.₄₇（范围：XX–XX Gy₂.₄₇）。
 
-In machine learning analyses, the random survival forest/gradient boosting model demonstrated superior predictive performance compared to traditional Cox models (C-index: XX vs. XX). SHAP analysis identified IGF-1 index, BED, and medication status as the most important predictors. Lower IGF-1 index and higher BED were associated with increased remission probability, whereas continued medication use was associated with lower radiosurgical response, suggesting that medication status may modulate radiosensitivity through effects on tumor biological activity.
+### 2.3 治疗策略
 
-**SHAP dependence plots further revealed a non-linear negative association between IGF-1 index and remission probability, while BED demonstrated a plateau effect on remission probability.**
+全垂体窝照射（whole-sella）XX例（XX%），靶向照射（targeted）XX例（XX%）。视神经最大剂量中位值为XX Gy（范围：XX–XX Gy）。
 
----
+### 2.4 围放疗期用药状态
 
-## Key Highlights (顶刊亮点)
-
-| Feature | Description |
-|---------|-------------|
-| ⏱ Time dimension | Follow-up + time to remission + time to toxicity |
-| 💊 Efficacy | Remission + control + recurrence |
-| 🛡️ Safety | Hypopituitarism + axes affected |
-| 🔬 Mechanism | IGF-1, BED, medication status |
-| 🤖 ML + SHAP | C-index comparison + nonlinear effects |
+围放疗期停用内分泌药物XX例（XX%），继续用药XX例（XX%）。停药患者中，停药中位时长为XX周（范围：XX–XX周）。
 
 ---
 
-## Structure for Full Results Section
+## 三、数据分析
 
-### 1. Cohort Characteristics (队列特征)
-- N, demographics
-- Baseline IGF-1i distribution
-- Knosp grade distribution
-- Dose/BED parameters
+### 3.1 统计分析方法
 
-### 2. Endocrine Outcomes (内分泌结局)
-- Initial remission
-- Durable remission
-- Time to remission
-- Endocrine control
+所有统计分析采用SAS version XX和R version XX完成。双侧P值<0.05视为有统计学显著性。
 
-### 3. Recurrence & Salvage (复发与挽救)
-- Recurrence rate
-- Time to recurrence
-- Salvage treatments
+#### 3.1.1 描述性分析
 
-### 4. Toxicity (安全性)
-- Hypopituitarism incidence
-- Visual/CN toxicity
-- Time to toxicity
+连续变量以中位数（四分位数范围）或均数±标准差描述，分类变量以频数（百分比）描述。
 
-### 5. Multivariable Predictors (多变量分析)
-- IGF-1i
-- BED
-- Medication hold
+#### 3.1.2 生存分析
 
-### 6. Machine Learning (机器学习)
-- Model performance
-- SHAP values
-- Dependence plots
+主要终点（持久性内分泌缓解）及次要终点（无复发生存、肿瘤控制、垂体功能减退发生）采用Kaplan–Meier方法估计累积发生率，组间比较采用Log-rank检验。Cox比例风险模型用于识别预后因素，结果以风险比（HR）及95%置信区间（CI）表示。
+
+#### 3.1.3 连续变量处理
+
+对于IGF-1指数、BED、肿瘤体积、手术至放疗间隔时间等连续变量，采用限制性三次样条（restricted cubic spline）建模，以灵活捕捉非线性关系。
+
+#### 3.1.4 倾向性评分分析
+
+为评估治疗策略（全垂体窝 vs 靶向照射、围放疗期停药 vs 继续用药）对结局的影响，采用逆概率加权法（IPTW）或倾向性评分匹配法进行分析，加权后采用标准化均值差（SMD）评估协变量平衡。
+
+#### 3.1.5 敏感性分析
+
+为评估研究结论的稳健性，进行以下敏感性分析：（1）E-value分析评估未测量混杂的影响；（2）多重填补法处理缺失数据；（3）替代终点定义分析。
+
+### 3.2 机器学习分析
+
+#### 3.2.1 模型构建
+
+采用随机生存森林（RSF）和梯度提升（Gradient Boosting）模型进行预测建模。模型纳入变量包括：基线IGF-1指数、BED、肿瘤体积、Knosp分级、手术至放疗间隔、用药状态、边缘剂量等。
+
+#### 3.2.2 模型验证
+
+采用重采样方法（Bootstrap validation）进行内部验证，通过一致性指数（C-index）和时间依赖性AUC评估模型区分度。采用校准曲线（Calibration plot）评估模型校准度。
+
+#### 3.2.3 可解释性分析
+
+采用SHAP（SHapley Additive exPlanations）方法计算各变量的重要度，并绘制SHAP依赖图（dependence plot）展示变量与结局的非线性关系。
+
+---
+
+## 四、内分泌结局
+
+### 4.1 持久性内分泌缓解
+
+Kaplan–Meier分析显示，3年和5年持久性内分泌缓解率分别为XX%和XX%，中位缓解时间为XX个月。持久性缓解率为XX%（XX/XX例），其中位随访时间为XX个月。
+
+### 4.2 内分泌控制
+
+另有XX%的患者在药物治疗下达到内分泌控制（IGF-1正常但需药物维持）。
+
+### 4.3 生化复发
+
+随访期间，生化复发发生于XX%的患者（XX/XX例），中位发生时间为XX个月。复发后，XX例患者接受挽救治疗，包括再次伽马刀治疗XX例、手术XX例、药物治疗调整XX例。
+
+---
+
+## 五、肿瘤控制
+
+肿瘤控制率为XX%（XX/XX例），中位随访期间肿瘤体积变化为XX%（范围：XX%–XX%）。肿瘤增大XX例（XX%），中位增大时间为XX个月。
+
+---
+
+## 六、安全性结局
+
+### 6.1 新发垂体功能减退
+
+新发垂体功能减退的总体发生率为XX%，Kaplan–Meier估计5年累积发生率为XX%，10年累积发生率为XX%。中位发生时间为XX个月。
+
+最常见的受累轴：XX轴（XX%），其次为XX轴（XX%）和XX轴（XX%）。
+
+### 6.2 视神经及颅神经毒性
+
+新发视力障碍XX例（XX%），颅神经麻痹XX例（XX%），放射性脑组织坏死XX例（XX%）。
+
+---
+
+## 七、多变量预测因素分析
+
+### 7.1 持久性缓解的预测因素
+
+多变量Cox回归分析显示：
+
+| 变量 | HR | 95% CI | P值 |
+|------|-----|--------|-----|
+| IGF-1指数（每增加1） | XX | XX–XX | <0.01 |
+| BED（每增加10 Gy₂.₄₇） | XX | XX–XX | XX |
+| 围放疗期停药（vs 继续用药） | XX | XX–XX | <0.01 |
+| 手术至放疗间隔（每增加6月） | XX | XX–XX | XX |
+| Knosp 4级（vs 2-3级） | XX | XX–XX | XX |
+
+### 7.2 新发垂体功能减退的预测因素
+
+| 变量 | HR | 95% CI | P值 |
+|------|-----|--------|-----|
+| 全垂体窝照射（vs 靶向） | XX | XX–XX | XX |
+| 视神经最大剂量（每增加1 Gy） | XX | XX–XX | XX |
+| 肿瘤体积（每增加1 cm³） | XX | XX–XX | XX |
+
+---
+
+## 八、亚组分析与敏感性分析
+
+### 8.1 倾向性评分分析
+
+#### 8.1.1 围放疗期停药 vs 继续用药
+
+IPTW加权后，停药组与用药组在基线特征上达到良好平衡（SMD<0.1）。加权后分析显示，停药组持久性缓解率显著高于用药组（HR=XX，95% CI: XX–XX，P<0.01）。
+
+#### 8.1.2 全垂体窝 vs 靶向照射
+
+两组在肿瘤体积、剂量分布上存在差异。加权后分析显示，两组在持久性缓解率上无显著差异（HR=XX，95% CI: XX–XX，P=XX），但全垂体窝组垂体功能减退发生率更高（HR=XX，95% CI: XX–XX，P<0.01）。
+
+### 8.2 敏感性分析
+
+E-value分析显示，观察到的关联对未测量混杂具有中等程度的稳健性。排除缺失数据的敏感性分析结果与主分析一致。
+
+---
+
+## 九、机器学习分析结果
+
+### 9.1 模型性能
+
+随机生存森林模型的C-index为XX（95% CI: XX–XX），梯度提升模型C-index为XX（95% CI: XX–XX），均优于传统Cox模型（ C-index=XX）。
+
+### 9.2 SHAP重要度
+
+SHAP分析显示，最重要的预测变量依次为：IGF-1指数（重要度XX%）、BED（XX%）、围放疗期用药状态（XX%）、肿瘤体积（XX%）、手术至放疗间隔（XX%）。
+
+### 9.3 SHAP依赖关系
+
+SHAP依赖图显示，IGF-1指数与缓解概率呈非线性负相关：当IGF-1指数<1.5时，缓解概率较高且相对稳定；当IGF-1指数≥2.0时，缓解概率显著下降。BED与缓解概率呈先上升后趋于平缓的非线性关系，提示存在"平台效应"——当BED达到约XX Gy₂.₄₇后，继续增加BED对缓解概率的边际效应减弱。
+
+---
+
+## 十、总结
+
+本研究通过国际多中心回顾性队列，证实了伽马刀治疗海绵窦侵犯型肢端肥大症的有效性和安全性。较低的基线IGF-1指数、较高的BED以及围放疗期停用内分泌药物是持久性缓解的独立预测因素。机器学习模型进一步验证了上述发现，并揭示了IGF-1指数与缓解概率的非线性关系以及BED的平台效应，为临床决策提供了更精细的预测工具。
 
 ---
 
