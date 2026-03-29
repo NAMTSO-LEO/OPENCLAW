@@ -1,44 +1,46 @@
-# 珠海中科先进技术研究院
+# 珠海中科先进技术研究院 - 文件索引
 
-## 项目落地主页
+## 快速导航
 
----
+### 📂 核心研究 (RWE_Oncology_Platform)
 
-## 项目定位
+| 文件夹 | 关键文件 |
+|--------|----------|
+| **01_工具代码** | `PD1_Regulatory_Pipeline.md` `IRAETimeVaryingPipeline.py` `Python_PS_IPTW_Corrected.md` |
+| **02_Studies** | `PD1_irAE_Joint_Study_Protocol.md` `PD1_irAE_Analysis_Script.py` |
+| **03_Papers** | `Results_Final.md` `Paper_Templates.md` |
+| **04_PPT** | `Project_Proposal.md` `Speech_Script.md` `OncoImmuno_Platform_PPT_Final.md` |
+| **08_Collaboration** | `Outreach_Template.md` `Doctor_Outreach_Guide.md` |
 
-**医学数据科学家** - 寻求与珠海中科先进技术研究院的合作机会
+### 📋 常用操作
 
----
+| 需求 | 找到 |
+|------|------|
+| 运行分析 | `02_Studies/PD1_irAE_Analysis_Script.py` |
+| 查看结果 | `03_Papers/Results_Final.md` |
+| 修改PPT | `04_PPT/Project_Proposal.md` |
+| 联系医院 | `08_Collaboration/Outreach_Template.md` |
 
-## 文件结构
+### 🔧 代码快速运行
 
-| 文件夹 | 内容 |
-|--------|------|
-| 01_个人简介 | 个人背景、学历、经验 |
-| 02_研究领域 | 医学数据科学、AI医疗 |
-| 03_项目方案 | 合作方案、项目计划 |
-| 04_成果展示 | 已完成项目、论文 |
-| 05_合作资源 | 人脉、资源对接 |
-| 06_联系方式 | 联系方式 |
+```bash
+# 基础分析
+cd 珠海中科先进技术研究院/RWE_Oncology_Platform/02_Studies
+python PD1_irAE_Analysis_Script.py
 
----
-
-## 核心优势
-
-1. 医学 + 数据科学 交叉背景
-2. 临床数据分析经验
-3. AI/ML 建模能力
-4. 因果推断研究经验
-
----
-
-## 合作方向
-
-- 医学数据平台建设
-- AI疾病预测模型
-- 真实世界研究
-- 临床数据分析
+# Landmark分析
+python Landmark_Analysis.py
+```
 
 ---
 
-*创建日期: 2026-03-16*
+## 今日交付概览
+
+- ✅ 280+ 文件
+- ✅ 完整分析Pipeline
+- ✅ 论文级Results
+- ✅ PPT+演讲稿+提案
+- ✅ 真实数据策略
+- ✅ GitHub同步
+
+*最后更新: 2026-03-28*
