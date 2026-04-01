@@ -1,34 +1,12 @@
-# 工作经历证明材料
+# Workspace Overview
 
-## 可接受的工作经历证明材料
+This workspace contains the **AI-Driven RWE Oncology Platform** and related projects.
 
-按优先级顺序：
+## Quick Links
 
-1. **工作合同** (Employment Contract)
-2. **工作证明** (Work Certificate)
-3. **离职证明** (Resignation Certificate)
-4. **社保/工资证明** (Social Security/Salary Certificate)
-5. **论文作者及署名单位** (Published Paper with Affiliation)
-6. **专利发明人及权属人** (Patent Inventor)
-7. **官网截图** (Official Website Screenshot)
-8. **情况说明与个人承诺** (Personal Statement with Commitment)
+- [Platform Documentation](Projects/RWE_Oncology_Platform/)
+- [Neuro-Oncology Platform](Projects/NeuroOncology_RWE_Platform/)
+- [External Data Resources](珠海中科先进技术研究院/07_外部数据资源/)
+- [Complete Report](workspace_complete_report.md)
 
----
-
-## 说明
-
-- 每段工作经历提供一项最有力的证明材料即可
-- 优先使用正式的工作合同或工作证明
-- 学术职位可以用论文发表单位和专利来证明
-
----
-
-## 本项目相关工作经验
-
-以下工作经历在本项目中有价值：
-
-- 医院肿瘤科工作经验
-- 临床研究经验
-- 数据分析/RWE研究经验
-- 医学影像/医疗器械经验
-
+## Status: ✅ Production Ready
