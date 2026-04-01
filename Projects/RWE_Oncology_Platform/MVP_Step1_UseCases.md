@@ -60,3 +60,45 @@
 ---
 
 *MVP Step 1 - Use Cases selected*
+
+---
+
+## Extended Use Cases (Multi-Tumor)
+
+### Use Case 4: NSCLC Immunotherapy Effectiveness
+
+| 字段 | 内容 |
+|------|------|
+| Business question | PD-1在非小细胞肺癌中是否比化疗更有效？ |
+| Clinical question | IV期NSCLC中，PD-1 vs化疗的OS HR是多少？ |
+| Evidence question | 在校正PD-L1表达和其他混杂后，HR是多少？ |
+| Priority rationale | 最高！NSCLC是PD-1最大适应症 |
+
+### Use Case 5: Melanoma irAE-Response Association
+
+| 字段 | 内容 |
+|------|------|
+| Business question | irAE是否与黑色素瘤疗效相关？ |
+| Clinical question | 出现irAE的患者是否OS更长？ |
+| Priority rationale | 经典irAE-疗效假设，高关注度 |
+
+### Use Case 6: Breast Cancer TNBC Response Prediction
+
+| 字段 | 内容 |
+|------|------|
+| Business question | 哪些TNBC患者可能从PD-1获益？ |
+| Clinical question | 多模态数据能否预测ORR？ |
+| Priority rationale | 精准医疗，高价值 |
+
+---
+
+### Data Summary (Multi-Tumor)
+
+| Tumor | N | PD-1 | Chemo | irAE Rate |
+|-------|---|------|-------|-----------|
+| DLBCL | 500 | 305 | 148 | 20% |
+| NSCLC | 600 | 424 | 115 | 19% |
+| Melanoma | 400 | 341 | 20 | 34% |
+| Breast | 500 | 140 | 309 | 6% |
+| GI | 450 | 178 | 220 | 6% |
+| **Total** | **2450** | **1388** | **812** | **16%** |
